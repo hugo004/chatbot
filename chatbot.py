@@ -1,95 +1,71 @@
-import json
 import random
-from unittest import result
-import nltk
-from nltk.stem import WordNetLemmatizer
-lemmatizer = WordNetLemmatizer()
-
 import numpy as np
 
-from tensorflow.keras import Sequential
-from tensorflow.keras.models import load_model
 from typing import Union
+from nltk_utils import tokenize, lematize
 
-def preprocessing(sentence: Union[list[str], str]):
-  tokenize = nltk.word_tokenize(sentence)
-  lemmatize = [lemmatizer.lemmatize(w.lower()) for w in tokenize]
-  
-  return lemmatize
+class Chatbot:
+  def __init__(self, words, classes, model, intent_json: object, name='BOT',):
+      self.name = name
+      self.words = words
+      self.classes = classes
+      self.model = model
+      self.intent_json = intent_json
+      
+  def bow(self, sentence: Union[list[str], str], detail: bool):
+    words = self.words
+    sentence_words = self.preprocessing(sentence)
+    bag = [0] * len(words)
+    for sent_w in sentence_words:
+      for i, w in enumerate(words):
+        if sent_w == w:
+          bag[i] = 1
+          if detail:
+            print(f'found in bag: ${w}')
 
+    return np.array(bag)
 
-def bow(sentence: Union[list[str], str], words: list[str], detail: bool):
-  sentence_words = preprocessing(sentence)
-  bag = [0] * len(words)
-  for sent_w in sentence_words:
-    for i, w in enumerate(words):
-      if sent_w == w:
-        bag[i] = 1
-        if detail:
-          print(f'found in bag: ${w}')
-
-  return np.array(bag)
-
-
-def predict(sentence: Union[list[str], str], words: list[str], classess: list[str], model:Sequential):
-  error_threshold = 0.3
-  pattern = bow(sentence, words, detail=False)
-  print(pattern, '\n\n\n')
-  res= model.predict(np.array([pattern]))[0]
-  results = [[i, r] for i, r in enumerate(res) if r > error_threshold]
-  
-  result_list = []
-  for r in results:
-    result_list.append({ 'intent': classess[r[0]], 'probability': r[1] })
-  
-  return result_list
-
-
-def get_response(intent:object, intent_json: object):
-  tag = intent[0]['intent']
-  intents = intent_json['intents']
-  for i in intents:
-    if i['tag'] == tag:
-      result = random.choice(i['responses'])
-      break
-  
-  return result
-
-
-chatbot_name = 'Berserker'
-model = load_model('chatbot_model.h5')
-
-words: list[str] = []
-classes: list[str] = []
-documents: list[(list[str],str)] = []
-ignore_words = ['?', '!']
-with open('intents.json', 'r') as json_data:
-    intents = json.load(json_data)
+      
+  def predict(self, sentence: Union[list[str], str]):
+    error_threshold = 0.3
+    pattern = self.bow(sentence, detail=False)
+    res= self.model.predict(np.array([pattern]))[0]
+    results = [[i, r] for i, r in enumerate(res) if r > error_threshold]
     
-for intent in intents["intents"]:
-  for pattern in intent["patterns"]:
-    w = nltk.word_tokenize(pattern)
-    words.extend(w)
-    documents.append((w, intent["tag"]))
+    result_list = []
+    for r in results:
+      result_list.append({ 'intent': self.classes[r[0]], 'probability': r[1] })
     
-    if intent["tag"] not in classes:
-      classes.append(intent["tag"])
-  
-  
-    
-def start_chat():
-  print(f'${chatbot_name}: My name is ${chatbot_name}. What can i help you ?')
-  while(True):
-    user_response = input()
-    user_response = user_response.lower()
-    if user_response in ['bye', 'exit', 'quit']:
-      print(f'${chatbot_name}: bye')
-      break
-    
-    intent = predict(user_response, words=words, classess=classes, model=model)
-    res = get_response(intent, intents)
-    
-    print(f'${chatbot_name}: ${res}')
+    return result_list
 
+  def preprocessing(self, sentence: Union[list[str], str]):
+    tokenized_words = tokenize(sentence)
+    lemmatized_words = [lematize(w.lower()) for w in tokenized_words]
+    
+    return lemmatized_words
 
-start_chat()
+  def get_response(self, intent:object, intent_json: object):
+    tag = intent[0]['intent']
+    intents = intent_json['intents']
+    for i in intents:
+      if i['tag'] == tag:
+        result = random.choice(i['responses'])
+        break
+    
+    return result
+
+      
+  def start_chat(self):
+    chatbot_name = self.name
+    print(f'${chatbot_name}: My name is ${chatbot_name}. What can i help you ?')
+    while(True):
+      user_response = input()
+      user_response = user_response.lower()
+      if user_response in ['bye', 'exit', 'quit']:
+        print(f'${chatbot_name}: bye')
+        break
+      
+      intent = self.predict(user_response)
+      res = self.get_response(intent, self.intent_json)
+      
+      print(f'${chatbot_name}: ${res}')
