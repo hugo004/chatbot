@@ -2,51 +2,56 @@ import random
 import numpy as np
 
 from typing import Union
-from nltk_utils import tokenize, lematize
+from nltk_utils import tokenize, lematize, stem
+from tensorflow.keras.models import load_model
+from data import get_data
 
 class Chatbot:
-  def __init__(self, words, classes, model, intent_json: object, name='BOT',):
+  def __init__(self, name='BOT',):
       self.name = name
-      self.words = words
-      self.classes = classes
-      self.model = model
-      self.intent_json = intent_json
+      self.model = load_model('chatbot_model.h5')
       
-  def bow(self, sentence: Union[list[str], str], detail: bool):
-    words = self.words
-    sentence_words = self.preprocessing(sentence)
-    bag = [0] * len(words)
-    for sent_w in sentence_words:
-      for i, w in enumerate(words):
-        if sent_w == w:
-          bag[i] = 1
-          if detail:
-            print(f'found in bag: ${w}')
-
-    return np.array(bag)
+      data = get_data()
+      self.words = data['words']
+      self.labels = data['labels']
+      self.intents = data['intents']
+      
+  def bow(self, tokenized_sentence: Union[list[str], str], words: list[str]):
+    sentence_words = [stem(w) for w in tokenized_sentence]
+    bag = np.zeros(len(words), dtype=np.float32)
+    for idx, w in enumerate(words):
+      if w in sentence_words:
+        bag[idx] = 1
+      
+    return bag
 
       
   def predict(self, sentence: Union[list[str], str]):
-    error_threshold = 0.3
-    pattern = self.bow(sentence, detail=False)
-    res= self.model.predict(np.array([pattern]))[0]
-    results = [[i, r] for i, r in enumerate(res) if r > error_threshold]
+    error_threshold = 0.7
+    pattern = sentence
+    res= self.model.predict(np.array([pattern]))
+    predicted = np.argmax(res)
+    prob = max(res[0])
     
-    result_list = []
-    for r in results:
-      result_list.append({ 'intent': self.classes[r[0]], 'probability': r[1] })
-    
-    return result_list
+    if prob > error_threshold:
+      return { 'intent': self.labels[predicted], 'probability': prob }
+
+    return None
+
 
   def preprocessing(self, sentence: Union[list[str], str]):
-    tokenized_words = tokenize(sentence)
-    lemmatized_words = [lematize(w.lower()) for w in tokenized_words]
+    # tokenized
+    tokenized_sentence = tokenize(sentence)
+    bag = self.bow(tokenized_sentence, self.words)
     
-    return lemmatized_words
+    return bag
 
-  def get_response(self, intent:object, intent_json: object):
-    tag = intent[0]['intent']
-    intents = intent_json['intents']
+  def get_response(self, intent:object, intents: object):
+    if intent == None:
+      return 'Sorry, i do not understand'
+      
+    tag = intent['intent']
+    intents = intents['intents']
     for i in intents:
       if i['tag'] == tag:
         result = random.choice(i['responses'])
@@ -58,6 +63,7 @@ class Chatbot:
   def start_chat(self):
     chatbot_name = self.name
     print(f'${chatbot_name}: My name is ${chatbot_name}. What can i help you ?')
+    
     while(True):
       user_response = input()
       user_response = user_response.lower()
@@ -65,7 +71,8 @@ class Chatbot:
         print(f'${chatbot_name}: bye')
         break
       
-      intent = self.predict(user_response)
-      res = self.get_response(intent, self.intent_json)
+      proccesed = self.preprocessing(user_response)
+      intent = self.predict(proccesed)
+      res = self.get_response(intent, self.intents)
       
       print(f'${chatbot_name}: ${res}')
