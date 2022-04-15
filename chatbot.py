@@ -6,6 +6,8 @@ from nltk_utils import tokenize, lematize, stem
 from tensorflow.keras.models import load_model
 from data import get_data
 
+context = {}
+detail = True
 class Chatbot:
   def __init__(self, name='BOT',):
       self.name = name
@@ -27,16 +29,28 @@ class Chatbot:
 
       
   def predict(self, sentence: Union[list[str], str]):
-    error_threshold = 0.7
+    error_threshold = 0.5
     pattern = sentence
-    res= self.model.predict(np.array([pattern]))
-    predicted = np.argmax(res)
-    prob = max(res[0])
+    res= self.model.predict(np.array([pattern]))[0]
+    res = [[i, r] for i, r in enumerate(res) if r > error_threshold]
+    res.sort(key=lambda x: x[1], reverse=True)
     
-    if prob > error_threshold:
-      return { 'intent': self.labels[predicted], 'probability': prob }
+    result_list = []
+    for i in res:
+      result_list.append({ 'intent': self.labels[i[0]], 'probability': i[1] })
+      
+    return result_list
+    
+    # predicted = np.argmax(res)
+    # prob = max(res[0])
+    
+    # if detail:
+    #   print('predict:', { 'intent': self.labels[predicted], 'probability': prob })
+    
+    # if prob > error_threshold:
+    #   return { 'intent': self.labels[predicted], 'probability': prob }
 
-    return None
+    # return None
 
 
   def preprocessing(self, sentence: Union[list[str], str]):
@@ -46,18 +60,30 @@ class Chatbot:
     
     return bag
 
-  def get_response(self, intent:object, intents: object):
-    if intent == None:
-      return 'Sorry, i do not understand'
-      
-    tag = intent['intent']
-    intents = intents['intents']
-    for i in intents:
-      if i['tag'] == tag:
-        result = random.choice(i['responses'])
-        break
+  def get_response(self, sentence, intents: object, userId='123'):
+    predicted = self.predict(sentence)
+    resposne = 'Sorry, i do not understand'
     
-    return result
+    for result in predicted:
+      tag = result['intent']
+      intents = intents['intents']
+      
+      for i in intents:
+        if i['tag'] == tag:
+          if 'context_set' in i:
+            if detail:
+              print('context:', i['context_set'])
+              
+            context[userId] = i['context_set']
+            
+          if not 'context_filter' in i or (userId in context and i['context_filter'] == context[userId]):
+            if detail:
+              print('tag:', i['tag'])
+              
+            resposne = random.choice(i['responses'])          
+            break
+    
+    return resposne
 
       
   def start_chat(self):
@@ -72,7 +98,6 @@ class Chatbot:
         break
       
       proccesed = self.preprocessing(user_response)
-      intent = self.predict(proccesed)
-      res = self.get_response(intent, self.intents)
+      res = self.get_response(proccesed, self.intents)
       
       print(f'${chatbot_name}: ${res}')
