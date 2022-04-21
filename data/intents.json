@@ -1,0 +1,90 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "How are you",
+        "Is anyone there?",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hello, thanks for visiting",
+        "Good to see you again",
+        "Hi there, how can I help?"
+      ],
+      "context_set": ""
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "See you later",
+        "Goodbye"
+      ],
+      "responses": [
+        "See you later, thanks for visiting",
+        "Have a nice day",
+        "Bye! Come back again soon."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "That's helpful"
+      ],
+      "responses": [
+        "Happy to help!",
+        "Any time!",
+        "My pleasure"
+      ]
+    },
+    {
+      "tag": "booking-dest-query",
+      "patterns": [
+        "We want to book a flight",
+        "Can I book a flight?",
+        "I'd like to book a flight",
+        "Can we book a flight to Japan"
+      ],
+      "responses": [
+        "What is your destination?",
+        "Where are you go?"
+      ],
+      "context_set": "bkt-query"
+    },
+    {
+      "tag": "booking-time-query",
+      "patterns": [
+        "A flight to Tokyo",
+        "From Hong Kong to Tokyo",
+        "The destination is Japan",
+        "We want a flight to Japan",
+        "We want to fly to Japan",
+        "To Japan"
+      ],
+      "responses": [
+        "When do you fly?",
+        "When?",
+        "What is your departure date?",
+        "What is your departure date and return date?"
+      ],
+      "context_filter": "bkt-query"
+    },
+    {
+      "tag": "payments",
+      "patterns": [
+        "Do you take credit cards?",
+        "Do you accept Mastercard?",
+        "Are you cash only?"
+      ],
+      "responses": [
+        "We accept VISA, Mastercard and AMEX",
+        "We accept most major credit cards"
+      ]
+    }
+  ]
+}

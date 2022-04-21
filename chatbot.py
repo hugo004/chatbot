@@ -1,22 +1,36 @@
+from distutils.log import debug
+import json
+import os
+import pickle
 import random
 import numpy as np
 
 from typing import Union
-from nltk_utils import tokenize, lematize, stem
-from tensorflow.keras.models import load_model
-from data import get_data
+
+import spacy
+from utils.nltk_utils import tokenize, lematize, stem
+# from tensorflow.keras.models import load_model
+from tensorflow import keras
+from keras.models import load_model
+# from data import get_data
+
+ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 context = {}
 detail = True
+
 class Chatbot:
   def __init__(self, name='BOT',):
       self.name = name
-      self.model = load_model('chatbot_model.h5')
+      self.model = load_model('./models/chatbot_model.h5')
+      self.nlp = spacy.load('./models/ner/model-best')
       
-      data = get_data()
-      self.words = data['words']
-      self.labels = data['labels']
-      self.intents = data['intents']
+
+      self.words = pickle.load(open(os.path.join(ROOT_PATH, 'models/words.pkl'), 'rb'))
+      self.labels = pickle.load(open(os.path.join(ROOT_PATH, 'models/labels.pkl'), 'rb'))
+      self.intents = json.loads(open(os.path.join(ROOT_PATH, 'data/intents.json')).read())
+      
+      print('chatbot initialized')
       
   def bow(self, tokenized_sentence: Union[list[str], str], words: list[str]):
     sentence_words = [stem(w) for w in tokenized_sentence]
@@ -92,12 +106,20 @@ class Chatbot:
     
     while(True):
       user_response = input()
-      user_response = user_response.lower()
       if user_response in ['bye', 'exit', 'quit']:
         print(f'${chatbot_name}: bye')
         break
       
-      proccesed = self.preprocessing(user_response)
+      proccesed = self.preprocessing(user_response.lower())
       res = self.get_response(proccesed, self.intents)
       
+      print('-'*25, 'RESPONSE', '-'*25)
       print(f'${chatbot_name}: ${res}')
+      print('-'*25, 'RESPONSE', '-'*25)
+      print('\n\n')
+      print('-'*25, 'NLP', '-'*25)
+      doc = self.nlp(user_response)
+      print(doc,doc.ents)
+      for ent in doc.ents:
+        print(ent, ent.text, ent.label_)
+      print('-'*25, 'NLP', '-'*25)

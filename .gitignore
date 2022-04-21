@@ -1,3 +1,7 @@
 ./__pycache__/*
 *.pyc
 *.h5
+*.pkl
+*.spacy
+*/ner/model-best/*
+*/ner/model-last/*

@@ -1,0 +1,134 @@
+{
+  "texts": [
+    {
+      "text": "Hi Hugo.",
+      "entities": [
+        {
+          "start": 3,
+          "end": 7,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "text": "We want to book a flight",
+      "entities": [
+        {
+          "start": 11,
+          "end": 15,
+          "label": "action"
+        },
+        {
+          "start": 18,
+          "end": 24,
+          "label": "name"
+        }
+      ]
+    },
+    {
+      "text": "Can I book a flight?",
+      "entities": [
+        {
+          "start": 6,
+          "end": 10,
+          "label": "action"
+        },
+        {
+          "start": 13,
+          "end": 19,
+          "label": "name"
+        }
+      ]
+    },
+    {
+      "text": "I'd like to book a flight",
+      "entities": [
+        {
+          "start": 12,
+          "end": 17,
+          "label": "action"
+        },
+        {
+          "start": 19,
+          "end": 25,
+          "label": "name"
+        }
+      ]
+    },
+    {
+      "text": "Can we book a flight to Japan",
+      "entities": [
+        {
+          "start": 24,
+          "end": 29,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "A flight to Tokyo",
+      "entities": [
+        {
+          "start": 12,
+          "end": 17,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "From Hong Kong to Tokyo",
+      "entities": [
+        {
+          "start": 5,
+          "end": 14,
+          "label": "depature"
+        },
+        {
+          "start": 18,
+          "end": 23,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "The destination is Japan",
+      "entities": [
+        {
+          "start": 19,
+          "end": 24,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "We want a flight to Japan",
+      "entities": [
+        {
+          "start": 20,
+          "end": 25,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "We want to fly to Japan",
+      "entities": [
+        {
+          "start": 18,
+          "end": 23,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "To Japan",
+      "entities": [
+        {
+          "start": 3,
+          "end": 8,
+          "label": "destination"
+        }
+      ]
+    }
+  ]
+}

@@ -1,12 +1,30 @@
 
+import os
+from typing import Union
+def extract_word_info(sentence: str, word: Union[str,list[str]]):
+  def get_info(sentence, word) -> tuple:
+      start = sentence.index(word)
+      end = len(word) + start
+      label = sentence[start:end]
+      print('start:', start, 'end:', end, '->', label)
+      
+      return (start,end, label)
+    
+  if isinstance(word, list):
+    return [get_info(sentence, w) for w in word]
+  else:
+    return get_info(sentence, word)
+  
+
+
+
+import pickle
 import random
 import string
 import json
 import numpy as np
 
-from nltk_utils import tokenize, lematize
-
-
+from utils.nltk_utils import tokenize, lematize
       
 def get_data():
   words: list[str] = []
@@ -14,7 +32,7 @@ def get_data():
   doc_x: list[str] = []
   doc_y: list[str] = []
   
-  with open('intents.json', 'r') as json_data:
+  with open(os.path.join(os.path.dirname(__file__), 'intents.json'), 'r') as json_data:
     data = json.load(json_data)
     
   for intent in data["intents"]:
@@ -46,6 +64,9 @@ def get_data():
   random.shuffle(training)
   training = np.array(training)
   
+  pickle.dump(words, open('./models/words.pkl', 'wb'))
+  pickle.dump(labels, open('./models/labels.pkl', 'wb'))
+  print ('words and labels model created')
   return {
     "intents": data,
     'words': words,
@@ -53,3 +74,6 @@ def get_data():
     'x_train': np.array(list(training[:,0])),
     'y_train': np.array(list(training[:, 1]))
   }
+
+
+

@@ -3,11 +3,11 @@
 import random
 import numpy as np
 
-from tensorflow import keras
+# from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Input
 from keras.optimizers import gradient_descent_v2
-from nltk_utils import lematize, stem
+from utils.nltk_utils import lematize, stem
 
 
 class Model:
@@ -28,7 +28,6 @@ class Model:
     model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
     hist = model.fit(X_train, y_train, epochs=200, batch_size=5, verbose=1)
-    model.save('chatbot_model.h5', hist)
+    model.save('./models/chatbot_model.h5', hist)
     
     return model
-    
