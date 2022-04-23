@@ -5,3 +5,4 @@
 *.spacy
 */ner/model-best/*
 */ner/model-last/*
+*.egg-info/*

@@ -1,0 +1,42 @@
+
+  {
+    "texts": [
+      "Hi Hugo",
+      "We want to book a flight",
+      "Can I book a flight?",
+      "I'd like to book a flight",
+      "Can we book a flight to Japan",
+      "A flight to Tokyo",
+      "From Hong Kong to Tokyo",
+      "The destination is Japan",
+      "We want a flight to Japan",
+      "We want to fly to Japan",
+      "To Japan"
+    ],
+    "ners": [
+      {
+        "text": "Hugo",
+        "label": "person"
+      },
+      {
+        "text": "book",
+        "label": "action"
+      },
+      {
+        "text": "flight",
+        "label": "name"
+      },
+      {
+        "text": "Japan",
+        "label": "destination"
+      },
+      {
+        "text": "Tokyo",
+        "label": "destination"
+      },
+      {
+        "text": "Hong Kong",
+        "label": "depature"
+      }
+    ]
+  }
