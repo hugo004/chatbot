@@ -3,12 +3,14 @@ import logging
 import spacy
 import json
 
-from utils import PROJECT_ROOT_PATH
+from src.utils import PROJECT_ROOT_PATH, ROOT_PATH
 from spacy.tokens import DocBin
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Input
+from keras.layers import Dense, Dropout, Activation, Input, Flatten
 from keras.optimizers import gradient_descent_v2
 
+
+logging.basicConfig(level=logging.INFO)
 
 def train_ner_model(show_detail = False):
   '''
@@ -24,7 +26,7 @@ def train_ner_model(show_detail = False):
     
     doc = nlp.make_doc(text)
     if show_detail:
-        logging.info('training -> text:', text, 'entities:', entities)
+        logging.info(f'training -> text: {text} entities: {entities}')
       
     ents = []
     for ent in entities:
@@ -36,19 +38,20 @@ def train_ner_model(show_detail = False):
       else:
         ents.append(span)
         if show_detail:
-          logging.info('append -> ', span)
+          logging.info(f'append ->  {span}')
     doc.ents = ents
     db.add(doc)
     
-  db.to_disk('./models/ner/train.spacy')
+  db.to_disk(os.path.join(ROOT_PATH, 'models/ner/train.spacy'))
   logging.info('NER model saved')
-
+  
 
 def train_chatbot_model(X_train, y_train):
   '''
   train chatbot model
   '''
   model = Sequential()
+  # model.add(Flatten(input_shape=(X_train.shape)))
   model.add(Dense(128, input_shape=(len(X_train[0]),), activation='relu'))
   model.add(Dropout(0.5))
   model.add(Dense(64, activation='relu'))

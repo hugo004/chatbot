@@ -43,27 +43,28 @@
       ]
     },
     {
-      "tag": "booking-dest-query",
+      "tag": "booking-query",
       "patterns": [
         "We want to book a flight",
         "Can I book a flight?",
         "I'd like to book a flight",
-        "Can we book a flight to Japan"
+        "Can we book a flight?"
       ],
       "responses": [
         "What is your destination?",
         "Where are you go?"
       ],
-      "context_set": "bkt-query"
+      "context_set": "bkd-query"
     },
     {
-      "tag": "booking-time-query",
+      "tag": "booking-dest-query",
       "patterns": [
         "A flight to Tokyo",
         "From Hong Kong to Tokyo",
         "The destination is Japan",
         "We want a flight to Japan",
         "We want to fly to Japan",
+        "We want go to Japan",
         "To Japan"
       ],
       "responses": [
@@ -72,7 +73,30 @@
         "What is your departure date?",
         "What is your departure date and return date?"
       ],
-      "context_filter": "bkt-query"
+      "context_filter": "bkd-query",
+      "context_set": "bkt-query"
+    },
+    {
+      "tag": "booking-time-query",
+      "patterns": [
+        "We are leaving this weekend",
+        "We are leaving this weeke",
+        "This week",
+        "This weekend",
+        "On Sunday",
+        "On Monday",
+        "I am leaving in October",
+        "I am leaving in Septemper",
+        "In December",
+        "In 10/12",
+        "In 11/10"
+      ],
+      "responses": [
+        "Booking process completed",
+        "Let's summary your booking info"
+      ],
+      "context_filter": "bkt-query",
+      "context_set": "bk-info"
     },
     {
       "tag": "payments",

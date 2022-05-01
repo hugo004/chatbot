@@ -134,14 +134,15 @@ def generate_chatbot_data(show_detail: bool):
   pickle.dump(words, open(os.path.join(PROJECT_ROOT_PATH, 'models/words.pkl'), 'wb'))
   pickle.dump(labels, open(os.path.join(PROJECT_ROOT_PATH, 'models/labels.pkl'), 'wb'))
   
-  X = training[:, 0]
-  y = training[:, 1]
+  X_train = np.array(list(training[:,0]))
+  y_train = np.array(list(training[:,1]))
+
   df = pd.DataFrame(data={
-    'pattern': X,
-    'label': y
+    "pattern": training[:,0],
+    "label": training[:,1]
   })
   df.to_csv(os.path.join(PROJECT_ROOT_PATH, 'data/chatbot-intents.csv'))
-  
+
   logging.info ('words and labels model created')
   
   return {
@@ -149,9 +150,7 @@ def generate_chatbot_data(show_detail: bool):
     'words': words,
     'labels': labels,
     'x_train': np.array(list(training[:,0])),
-    'y_train': np.array(list(training[:, 1]))
+    'y_train': np.array(list(training[:, 1])),
   }
 
-
-generate_chatbot_data(show_detail=True)
 

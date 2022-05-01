@@ -3,6 +3,8 @@
 *.h5
 *.pkl
 *.spacy
-*/ner/model-best/*
-*/ner/model-last/*
+*/models/ner/model-best/*
+*/models/ner/model-last/*
+models/ner/model-best/*
+models/ner/model-last/*
 *.egg-info/*
