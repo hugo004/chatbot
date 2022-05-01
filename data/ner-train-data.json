@@ -1,152 +1,329 @@
-[
-  {
-    "text": "Hi Hugo",
-    "entities": [
-      {
-        "start": 3,
-        "end": 7,
-        "label": "person"
-      }
-    ]
-  },
-  {
-    "text": "We want to book a flight",
-    "entities": [
-      {
-        "start": 11,
-        "end": 15,
-        "label": "action"
-      },
-      {
-        "start": 18,
-        "end": 24,
-        "label": "name"
-      }
-    ]
-  },
-  {
-    "text": "Can I book a flight?",
-    "entities": [
-      {
-        "start": 6,
-        "end": 10,
-        "label": "action"
-      },
-      {
-        "start": 13,
-        "end": 19,
-        "label": "name"
-      }
-    ]
-  },
-  {
-    "text": "I'd like to book a flight",
-    "entities": [
-      {
-        "start": 12,
-        "end": 16,
-        "label": "action"
-      },
-      {
-        "start": 19,
-        "end": 25,
-        "label": "name"
-      }
-    ]
-  },
-  {
-    "text": "Can we book a flight to Japan",
-    "entities": [
-      {
-        "start": 7,
-        "end": 11,
-        "label": "action"
-      },
-      {
-        "start": 14,
-        "end": 20,
-        "label": "name"
-      },
-      {
-        "start": 24,
-        "end": 29,
-        "label": "destination"
-      }
-    ]
-  },
-  {
-    "text": "A flight to Tokyo",
-    "entities": [
-      {
-        "start": 2,
-        "end": 8,
-        "label": "name"
-      },
-      {
-        "start": 12,
-        "end": 17,
-        "label": "destination"
-      }
-    ]
-  },
-  {
-    "text": "From Hong Kong to Tokyo",
-    "entities": [
-      {
-        "start": 18,
-        "end": 23,
-        "label": "destination"
-      },
-      {
-        "start": 5,
-        "end": 14,
-        "label": "depature"
-      }
-    ]
-  },
-  {
-    "text": "The destination is Japan",
-    "entities": [
-      {
-        "start": 19,
-        "end": 24,
-        "label": "destination"
-      }
-    ]
-  },
-  {
-    "text": "We want a flight to Japan",
-    "entities": [
-      {
-        "start": 10,
-        "end": 16,
-        "label": "name"
-      },
-      {
-        "start": 20,
-        "end": 25,
-        "label": "destination"
-      }
-    ]
-  },
-  {
-    "text": "We want to fly to Japan",
-    "entities": [
-      {
-        "start": 18,
-        "end": 23,
-        "label": "destination"
-      }
-    ]
-  },
-  {
-    "text": "To Japan",
-    "entities": [
-      {
-        "start": 3,
-        "end": 8,
-        "label": "destination"
-      }
-    ]
-  }
-]
+{
+  "texts": [
+    {
+      "text": "Hi Hugo",
+      "entities": [
+        {
+          "start": 3,
+          "end": 7,
+          "label": "person"
+        }
+      ]
+    },
+    {
+      "text": "We want to book a flight",
+      "entities": [
+        {
+          "start": 11,
+          "end": 15,
+          "label": "action"
+        },
+        {
+          "start": 18,
+          "end": 24,
+          "label": "name"
+        }
+      ]
+    },
+    {
+      "text": "Can I book a flight?",
+      "entities": [
+        {
+          "start": 6,
+          "end": 10,
+          "label": "action"
+        },
+        {
+          "start": 13,
+          "end": 19,
+          "label": "name"
+        }
+      ]
+    },
+    {
+      "text": "I'd like to book a flight",
+      "entities": [
+        {
+          "start": 12,
+          "end": 16,
+          "label": "action"
+        },
+        {
+          "start": 19,
+          "end": 25,
+          "label": "name"
+        }
+      ]
+    },
+    {
+      "text": "Can we book a flight to Japan",
+      "entities": [
+        {
+          "start": 7,
+          "end": 11,
+          "label": "action"
+        },
+        {
+          "start": 14,
+          "end": 20,
+          "label": "name"
+        },
+        {
+          "start": 24,
+          "end": 29,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "A flight to Tokyo",
+      "entities": [
+        {
+          "start": 2,
+          "end": 8,
+          "label": "name"
+        },
+        {
+          "start": 12,
+          "end": 17,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "From Hong Kong to Tokyo",
+      "entities": [
+        {
+          "start": 18,
+          "end": 23,
+          "label": "destination"
+        },
+        {
+          "start": 5,
+          "end": 14,
+          "label": "depature"
+        }
+      ]
+    },
+    {
+      "text": "The destination is Japan",
+      "entities": [
+        {
+          "start": 19,
+          "end": 24,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "We want a flight to Japan",
+      "entities": [
+        {
+          "start": 10,
+          "end": 16,
+          "label": "name"
+        },
+        {
+          "start": 20,
+          "end": 25,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "We want to fly to Japan",
+      "entities": [
+        {
+          "start": 18,
+          "end": 23,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "To Japan",
+      "entities": [
+        {
+          "start": 3,
+          "end": 8,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "In September",
+      "entities": [
+        {
+          "start": 0,
+          "end": 12,
+          "label": "depature"
+        }
+      ]
+    },
+    {
+      "text": "In December",
+      "entities": [
+        {
+          "start": 0,
+          "end": 11,
+          "label": "depature"
+        }
+      ]
+    },
+    {
+      "text": "In 12/12",
+      "entities": [
+        {
+          "start": 0,
+          "end": 8,
+          "label": "depature"
+        }
+      ]
+    },
+    {
+      "text": "In 01/12/2022",
+      "entities": [
+        {
+          "start": 3,
+          "end": 8,
+          "label": "depature"
+        },
+        {
+          "start": 0,
+          "end": 13,
+          "label": "depature"
+        }
+      ]
+    },
+    {
+      "text": "2022-01-12",
+      "entities": [
+        {
+          "start": 5,
+          "end": 10,
+          "label": "depature"
+        },
+        {
+          "start": 0,
+          "end": 10,
+          "label": "depature"
+        }
+      ]
+    },
+    {
+      "text": "01-12",
+      "entities": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "depature"
+        }
+      ]
+    },
+    {
+      "text": "01/12",
+      "entities": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "depature"
+        }
+      ]
+    },
+    {
+      "text": "2022-12-01 - 2022-12-10",
+      "entities": [
+        {
+          "start": 0,
+          "end": 12,
+          "label": "depature"
+        },
+        {
+          "start": 11,
+          "end": 23,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "text": "01/12 - 10/12",
+      "entities": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "depature"
+        },
+        {
+          "start": 0,
+          "end": 7,
+          "label": "depature"
+        },
+        {
+          "start": 6,
+          "end": 13,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "text": "01-12 - 10-12",
+      "entities": [
+        {
+          "start": 0,
+          "end": 5,
+          "label": "depature"
+        },
+        {
+          "start": 0,
+          "end": 7,
+          "label": "depature"
+        },
+        {
+          "start": 6,
+          "end": 13,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "text": "From 01/12 to 10/12",
+      "entities": [
+        {
+          "start": 5,
+          "end": 10,
+          "label": "depature"
+        },
+        {
+          "start": 0,
+          "end": 10,
+          "label": "depature"
+        },
+        {
+          "start": 11,
+          "end": 19,
+          "label": "return"
+        }
+      ]
+    },
+    {
+      "text": "The depature date is 01/12 and the return date is 10/12",
+      "entities": [
+        {
+          "start": 21,
+          "end": 26,
+          "label": "depature"
+        },
+        {
+          "start": 4,
+          "end": 26,
+          "label": "depature"
+        },
+        {
+          "start": 35,
+          "end": 55,
+          "label": "return"
+        }
+      ]
+    }
+  ]
+}
