@@ -8,7 +8,7 @@ from spacy.tokens import DocBin
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Input, Flatten
 from keras.optimizers import gradient_descent_v2
-
+from spacy.util import filter_spans
 
 logging.basicConfig(level=logging.INFO)
 
@@ -39,7 +39,9 @@ def train_ner_model(show_detail = False):
         ents.append(span)
         if show_detail:
           logging.info(f'append ->  {span}')
-    doc.ents = ents
+    
+    # handle long span overlap 
+    doc.ents = filter_spans(ents)
     db.add(doc)
     
   db.to_disk(os.path.join(ROOT_PATH, 'models/ner/train.spacy'))
