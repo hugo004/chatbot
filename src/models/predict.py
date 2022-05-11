@@ -11,7 +11,7 @@ from src.utils.nltk_utils import tokenize, bow
 
 
 chatbot_model = load_model(os.path.join(PROJECT_ROOT_PATH, 'models/chatbot_model.h5'))
-ner_nlp = spacy.load(os.path.join(PROJECT_ROOT_PATH, 'models/ner/model-best'))
+ner_nlp = spacy.load(os.path.join(PROJECT_ROOT_PATH, 'models/ner/model-extend'))
 words = pickle.load(open(os.path.join(PROJECT_ROOT_PATH, 'models/words.pkl'), 'rb'))
 labels = pickle.load(open(os.path.join(PROJECT_ROOT_PATH, 'models/labels.pkl'), 'rb'))
 
@@ -40,5 +40,5 @@ def predict_intent(sentence: str):
   return intent_list
 
 def predict_ner(sentence: str):
-  doc = ner_nlp(sentence.lower())
+  doc = ner_nlp(sentence)
   return doc
