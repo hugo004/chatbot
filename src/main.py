@@ -1,4 +1,3 @@
-from cProfile import label
 import json
 import os
 import random
@@ -10,7 +9,44 @@ intents_json = json.loads(open(os.path.join(PROJECT_ROOT_PATH, 'data/intents.jso
 chatbot_name = "DEV"
 context = {}
 scene_context = {}
+bot_memory = []
 user = '123'
+
+def catch_ner_info(ent, context_filter):
+  ner_tag = ent.label_
+  
+  if context_filter == 'bkd-query':
+    if ner_tag == 'FROM':
+      bot_memory.append('FROM')
+      
+    if ner_tag == 'TO':
+      bot_memory.append('TO')
+      
+    if ner_tag == 'GPE':
+      if bot_memory[-1] == 'FROM':
+        scene_context['destination'] = ent.text
+        bot_memory.pop()
+      elif bot_memory[-1] == 'TO':
+        scene_context['depature'] = ent.text
+        bot_memory.pop()
+    
+    if ner_tag in ['CARDINAL', 'DATE']:
+      if bot_memory[-1] == 'FROM':
+        scene_context['return-date'] = ent.text
+        bot_memory.pop()
+      elif bot_memory[-1] == 'TO':
+        scene_context['depature-date'] = ent.text
+        bot_memory.pop()
+      
+    
+      
+  elif context_filter == 'bkt-query':
+    if ner_tag == 'depature'.upper():
+      scene_context['depature'] = ent.text
+      
+    if ner_tag == 'return'.upper():
+      scene_context['return'] = ent.text
+
 
 def chatbot_response(sentence: str, userId, show_detail=False):
   ner = predict_ner(sentence)
@@ -19,18 +55,17 @@ def chatbot_response(sentence: str, userId, show_detail=False):
   user_intent = None
   
   if show_detail:
-    print('predicted:', predicted)
+    print('\npredicted:', predicted)
   
   for result in predicted:
     tag = result['intent']
     intents = intents_json['intents']
     
-    previous_context = context[userId] if userId in context else '' 
     for i in intents:
       if i['tag'] == tag:
         if 'context_set' in i:
           if show_detail:
-            print('context:', i['context_set'], 'prvious:', previous_context)
+            print('context:', i['context_set'])
           
           context[userId] = i['context_set']
           
@@ -43,21 +78,16 @@ def chatbot_response(sentence: str, userId, show_detail=False):
           user_intent = i['tag'] 
           
         if 'context_filter' in i:
-          print('\n\n')
+          print('\n')
           print('-'*25, 'NLP', '-'*25)
           print('predicted user intent: ', user_intent)
           
           doc = ner
+          print('nlp ents:', doc.ents)
           for ent in doc.ents:
-            if i['context_filter'] == 'bkd-query' and  ent.label_ == 'destination'.upper():
-                scene_context['destination'] = ent.text
-            elif i['context_filter'] == 'bkt-query':
-              if ent.label_ == 'depature'.upper():
-                scene_context['depature'] = ent.text
-              elif ent.label == 'return'.upper():
-                scene_context['return'] = ent.text
-              
-            print(ent, ent.text, ent.label_)
+            catch_ner_info(ent, i['context_filter'])
+            print(f'entity: {ent}, text: {ent.text}, NER label: {ent.label_}')
+            print('context info:', scene_context)
           
           break
   
@@ -77,6 +107,7 @@ if __name__ == '__main__':
     
     response, user_intent = chatbot_response(user_response, userId=user, show_detail=True)
     
+    print('\n')
     print('-'*25, 'RESPONSE', '-'*25)
     print(f'${chatbot_name}: ${response}\n')
     
