@@ -68,28 +68,72 @@
         "To Japan"
       ],
       "responses": [
-        "When do you fly?",
-        "When?",
-        "What is your departure date?",
+        "When do you fly and back?",
+        "When you leave and back?",
         "What is your departure date and return date?"
       ],
       "context_filter": "bkd-query",
+      "context_set": "bkt-oneway"
+    },
+    {
+      "tag": "booking-one-way",
+      "patterns": [
+        "Yes, one way trip",
+        "one way"
+      ],
+      "responses": [
+        "When do you fly?",
+        "When are you leave",
+        "What is your departure date?"
+      ],
+      "context_filter": "bk-oneway",
       "context_set": "bkt-query"
     },
     {
-      "tag": "booking-time-query",
+      "tag": "booking-no-one-way",
+      "patterns": [
+        "No one way trip",
+        "No one way",
+        "I will back on",
+        "I will come back"
+      ],
+      "responses": [
+        "When do you fly and back?",
+        "When you leave and back?",
+        "What is your departure date and return date?"
+      ],
+      "context_filter": "bk-oneway",
+      "context_set": "bkt-query"
+    },
+    {
+      "tag": "booking-leave-time-query",
       "patterns": [
         "We are leaving this weekend",
         "We are leaving this weeke",
         "This week",
         "This weekend",
         "On Sunday",
-        "On Monday",
+        "On 12/12",
         "I am leaving in October",
-        "I am leaving in Septemper",
         "In December",
-        "In 10/12",
-        "In 11/10"
+        "In 11/10",
+        "Leave at 10/12",
+        "The depatrue date is 10/12"
+      ],
+      "responses": [
+        "Booking process completed",
+        "Let's summary your booking info"
+      ],
+      "context_filter": "bklt-query",
+      "context_set": "bk-info"
+    },
+    {
+      "tag": "booking-time-range-query",
+      "patterns": [
+        "Leave at 10/12 and back on 20/12",
+        "leave in 10/12 and come back on 20/12",
+        "The depatrue date is 10/12 and the return date is 20/12",
+        "Depatrue time 10/12, return time 20/12"
       ],
       "responses": [
         "Booking process completed",

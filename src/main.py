@@ -12,40 +12,34 @@ scene_context = {}
 bot_memory = []
 user = '123'
 
-def catch_ner_info(ent, context_filter):
+def catch_ner_info(ent, context_filter, show_detail = False):
   ner_tag = ent.label_
+  if ner_tag in ['FROM', 'TO', 'DPTL', "DSTT", 'RTND', 'DPTD']:
+    bot_memory.append(ner_tag)
   
+  if show_detail:
+    print('current ner', ner_tag,'bot memory:', bot_memory)
+    
   if context_filter == 'bkd-query':
-    if ner_tag == 'FROM':
-      bot_memory.append('FROM')
-      
-    if ner_tag == 'TO':
-      bot_memory.append('TO')
-      
     if ner_tag == 'GPE':
-      if bot_memory[-1] == 'FROM':
+      if bot_memory[-1] in ['FROM', 'DPTL']:
         scene_context['destination'] = ent.text
         bot_memory.pop()
-      elif bot_memory[-1] == 'TO':
+      elif bot_memory[-1] in ['TO', 'DSTT']:
         scene_context['depature'] = ent.text
         bot_memory.pop()
     
-    if ner_tag in ['CARDINAL', 'DATE']:
-      if bot_memory[-1] == 'FROM':
-        scene_context['return-date'] = ent.text
-        bot_memory.pop()
-      elif bot_memory[-1] == 'TO':
-        scene_context['depature-date'] = ent.text
-        bot_memory.pop()
       
     
       
-  elif context_filter == 'bkt-query':
-    if ner_tag == 'depature'.upper():
-      scene_context['depature'] = ent.text
-      
-    if ner_tag == 'return'.upper():
-      scene_context['return'] = ent.text
+  elif context_filter in ['bkt-query', 'bklt-query']:
+    if ner_tag in ['CARDINAL', 'DATE']:
+      if bot_memory[-1] in ['FROM', 'DPTD']:
+        scene_context['return-date'] = ent.text
+        bot_memory.pop()
+      elif bot_memory[-1] in ['TO', 'RTND']:
+        scene_context['depature-date'] = ent.text
+        bot_memory.pop()
 
 
 def chatbot_response(sentence: str, userId, show_detail=False):
