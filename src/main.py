@@ -17,15 +17,17 @@ def catch_ner_info(ent, context_filter, show_detail = False):
   if ner_tag in ['FROM', 'TO', 'DPTL', "DSTT", 'RTND', 'DPTD']:
     bot_memory.append(ner_tag)
   
+  latest_memory = bot_memory[-1] if len(bot_memory) > 0 else None
+  
   if show_detail:
-    print('current ner', ner_tag,'bot memory:', bot_memory)
+    print('current ner', ner_tag,'bot memory:', bot_memory, 'latest memory:', latest_memory)
     
   if context_filter == 'bkd-query':
     if ner_tag == 'GPE':
-      if bot_memory[-1] in ['FROM', 'DPTL']:
+      if latest_memory in ['FROM', 'DPTL']:
         scene_context['destination'] = ent.text
         bot_memory.pop()
-      elif bot_memory[-1] in ['TO', 'DSTT']:
+      elif latest_memory in ['TO', 'DSTT']:
         scene_context['depature'] = ent.text
         bot_memory.pop()
     
@@ -34,10 +36,10 @@ def catch_ner_info(ent, context_filter, show_detail = False):
       
   elif context_filter in ['bkt-query', 'bklt-query']:
     if ner_tag in ['CARDINAL', 'DATE']:
-      if bot_memory[-1] in ['FROM', 'DPTD']:
+      if latest_memory in ['FROM', 'DPTD']:
         scene_context['return-date'] = ent.text
         bot_memory.pop()
-      elif bot_memory[-1] in ['TO', 'RTND']:
+      elif latest_memory in ['TO', 'RTND']:
         scene_context['depature-date'] = ent.text
         bot_memory.pop()
 
@@ -79,7 +81,7 @@ def chatbot_response(sentence: str, userId, show_detail=False):
           doc = ner
           print('nlp ents:', doc.ents)
           for ent in doc.ents:
-            catch_ner_info(ent, i['context_filter'])
+            catch_ner_info(ent, i['context_filter'], show_detail)
             print(f'entity: {ent}, text: {ent.text}, NER label: {ent.label_}')
             print('context info:', scene_context)
           

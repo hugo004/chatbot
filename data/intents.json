@@ -68,17 +68,16 @@
         "To Japan"
       ],
       "responses": [
-        "When do you fly and back?",
-        "When you leave and back?",
-        "What is your departure date and return date?"
+        "One way ticket?",
+        "What is the ticket type? one way?"
       ],
       "context_filter": "bkd-query",
-      "context_set": "bkt-oneway"
+      "context_set": "ticket-type-query"
     },
     {
       "tag": "booking-one-way",
       "patterns": [
-        "Yes, one way trip",
+        "Yes, one way ticket",
         "one way"
       ],
       "responses": [
@@ -86,13 +85,13 @@
         "When are you leave",
         "What is your departure date?"
       ],
-      "context_filter": "bk-oneway",
+      "context_filter": "ticket-type-query",
       "context_set": "bkt-query"
     },
     {
       "tag": "booking-no-one-way",
       "patterns": [
-        "No one way trip",
+        "No one way ticket",
         "No one way",
         "I will back on",
         "I will come back"
@@ -102,7 +101,7 @@
         "When you leave and back?",
         "What is your departure date and return date?"
       ],
-      "context_filter": "bk-oneway",
+      "context_filter": "ticket-type-query",
       "context_set": "bkt-query"
     },
     {
