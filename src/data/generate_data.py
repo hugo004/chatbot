@@ -85,6 +85,20 @@ def generate_ner_data():
   logging.info('NER data generated')
   
   
+  
+
+def get_intents():
+  general_intent = json.loads(open(os.path.join(PROJECT_ROOT_PATH, 'data/intents/general-intents.json')).read())
+  booking_intent = json.loads(open(os.path.join(PROJECT_ROOT_PATH, 'data/intents/booking-intents.json')).read())
+  eform_intent = json.loads(open(os.path.join(PROJECT_ROOT_PATH, 'data/intents/eform-intents.json')).read())
+  
+  intents = []
+  intents.extend(general_intent['intents'])
+  intents.extend(booking_intent['intents'])
+  intents.extend(eform_intent['intents'])
+  
+  return intents
+  
       
 def generate_chatbot_data(show_detail: bool):
   words: list[str] = []
@@ -92,10 +106,10 @@ def generate_chatbot_data(show_detail: bool):
   doc_x: list[str] = []
   doc_y: list[str] = []
   
-  with open(os.path.join(PROJECT_ROOT_PATH, 'data/intents.json'), 'r') as json_data:
-    data = json.load(json_data)
+  intents = get_intents()
+ 
     
-  for intent in data["intents"]:
+  for intent in intents:
     for pattern in intent["patterns"]:
       tokenized = tokenize(pattern)
       words.extend(tokenized)
@@ -134,8 +148,6 @@ def generate_chatbot_data(show_detail: bool):
   pickle.dump(words, open(os.path.join(PROJECT_ROOT_PATH, 'models/words.pkl'), 'wb'))
   pickle.dump(labels, open(os.path.join(PROJECT_ROOT_PATH, 'models/labels.pkl'), 'wb'))
   
-  X_train = np.array(list(training[:,0]))
-  y_train = np.array(list(training[:,1]))
 
   df = pd.DataFrame(data={
     "pattern": training[:,0],
@@ -146,7 +158,7 @@ def generate_chatbot_data(show_detail: bool):
   logging.info ('words and labels model created')
   
   return {
-    "intents": data,
+    "intents": intents,
     'words': words,
     'labels': labels,
     'x_train': np.array(list(training[:,0])),

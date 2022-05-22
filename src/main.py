@@ -4,8 +4,9 @@ import random
 
 from src.utils import PROJECT_ROOT_PATH
 from models.predict import predict_intent, predict_ner
+from data.generate_data import get_intents
 
-intents_json = json.loads(open(os.path.join(PROJECT_ROOT_PATH, 'data/intents.json')).read())
+intents = get_intents()
 chatbot_name = "DEV"
 context = {}
 scene_context = {}
@@ -55,7 +56,6 @@ def chatbot_response(sentence: str, userId, show_detail=False):
   
   for result in predicted:
     tag = result['intent']
-    intents = intents_json['intents']
     
     for i in intents:
       if i['tag'] == tag:

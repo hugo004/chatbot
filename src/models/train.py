@@ -1,3 +1,4 @@
+import math
 import os
 import logging
 import spacy
@@ -52,11 +53,16 @@ def train_chatbot_model(X_train, y_train):
   '''
   train chatbot model
   '''
+  factor = 0.1
+  input_unit = 128
+  output_unit = len(y_train[0])
+  data_sampels = len(X_train[0])
+  hidden_unit = math.floor(data_sampels / ((input_unit + output_unit) * factor))
+  
   model = Sequential()
-  # model.add(Flatten(input_shape=(X_train.shape)))
-  model.add(Dense(128, input_shape=(len(X_train[0]),), activation='relu'))
-  model.add(Dropout(0.5))
-  model.add(Dense(64, activation='relu'))
+  model.add(Dense(input_unit, input_shape=(len(X_train[0]),), activation='relu'))
+  model.add(Dropout(0.3))
+  model.add(Dense(hidden_unit, activation='relu'))
   model.add(Dropout(0.3))
   model.add(Dense(len(y_train[0]), activation='softmax'))
 
