@@ -1,0 +1,86 @@
+{
+  "intents": [
+    {
+      "tag": "form-field-condition",
+      "patterns": [
+        "conditional field",
+        "How can i set this filed show after yes selected",
+        "I want the text field show after option selected"
+      ],
+      "responses": [
+        "You can click the \"condition\" icon, then you can set the display condition"
+      ]
+    },
+    {
+      "tag": "form-custom",
+      "patterns": [
+        "How to custom form color",
+        "How to custom form theme",
+        "How to custom form logo",
+        "I want change form logo",
+        "I want change form color",
+        "I want change form theme",
+        "I want create form",
+        "How to add a new form"
+      ],
+      "responses": [],
+      "type": "forward"
+    },
+    {
+      "tag": "form-to-booking",
+      "patterns": [
+        "upload record to my booking",
+        "upload form record to booking",
+        "uplaod form to appointment"
+      ],
+      "responses": [
+        "Click form edit button, and set \"eBookingUpdate\" action with \"formSubmit\" execution level. The actions can find on post-action tab, which in step 2 of form creation"
+      ]
+    },
+    {
+      "tag": "form-to-cms",
+      "patterns": [
+        "upload record to cms",
+        "upload form to cms",
+        "upload form record to cms"
+      ],
+      "responses": [
+        "Click form edit button, and set \"uploadPdf\" action with \"onApiCall\" execution level. The actions can find on post-action tab, which in step 2 of form creation"
+      ]
+    },
+    {
+      "tag": "fill-data",
+      "patterns": [
+        "How to auto fill form data",
+        "fill patient data",
+        "fill data"
+      ],
+      "responses": [
+        "You can pass data model through query string, but the data model must match the form field model. e.g. query string should look like xxx?name=TaiMan, then the form must have a filed with model key name",
+        "You can use \"dataToken\" to auto fill in form data. Please check dataToken for detail"
+      ]
+    },
+    {
+      "tag": "upload-cms-fail",
+      "patterns": [
+        "upload form to cms fail",
+        "Fail to upload form record to cms",
+        "cannnot upload form to cms"
+      ],
+      "responses": [
+        "You should check the cms permission and blob storage setting"
+      ]
+    },
+    {
+      "tag": "upload-booking-fail",
+      "patterns": [
+        "upload form to booking fail",
+        "Fail to upload form record to booking",
+        "cannnot upload form to booking"
+      ],
+      "responses": [
+        "You should check the permission and the cloud service security setting"
+      ]
+    }
+  ]
+}

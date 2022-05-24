@@ -1,0 +1,41 @@
+[
+  {
+    "tag": "form-theme",
+    "patterns": [
+      "form color",
+      "theme color",
+      "custom form color",
+      "custom theme color",
+      "change form color",
+      "change theme color"
+    ],
+    "responses": [
+      "You can set theme color when creating form"
+    ]
+  },
+  {
+    "tag": "form-logo",
+    "patterns": [
+      "form logo",
+      "custom form logo",
+      "change form logo",
+      "add logo"
+    ],
+    "responses": [
+      "You can set form logo when creating form, the logo can be remote url or upload from you computer"
+    ]
+  },
+  {
+    "tag": "form-create",
+    "patterns": [
+      "create form",
+      "custom form",
+      "new form",
+      "edit form",
+      "update form"
+    ],
+    "responses": [
+      "You can create/update the form with our e-form portal"
+    ]
+  }
+]

@@ -69,7 +69,7 @@
           "label": "name"
         },
         {
-          "start": 24,
+          "start": 21,
           "end": 29,
           "label": "destination"
         }
@@ -84,7 +84,7 @@
           "label": "name"
         },
         {
-          "start": 12,
+          "start": 9,
           "end": 17,
           "label": "destination"
         }
@@ -94,23 +94,8 @@
       "text": "From Hong Kong to Tokyo",
       "entities": [
         {
-          "start": 18,
+          "start": 15,
           "end": 23,
-          "label": "destination"
-        },
-        {
-          "start": 5,
-          "end": 14,
-          "label": "depature"
-        }
-      ]
-    },
-    {
-      "text": "The destination is Japan",
-      "entities": [
-        {
-          "start": 19,
-          "end": 24,
           "label": "destination"
         }
       ]
@@ -124,7 +109,7 @@
           "label": "name"
         },
         {
-          "start": 20,
+          "start": 17,
           "end": 25,
           "label": "destination"
         }
@@ -134,174 +119,34 @@
       "text": "We want to fly to Japan",
       "entities": [
         {
-          "start": 18,
+          "start": 15,
           "end": 23,
           "label": "destination"
         }
       ]
     },
     {
-      "text": "To Japan",
+      "text": "The depature time is September, or December",
       "entities": [
         {
-          "start": 3,
-          "end": 8,
-          "label": "destination"
-        }
-      ]
-    },
-    {
-      "text": "In September",
-      "entities": [
-        {
-          "start": 0,
-          "end": 12,
-          "label": "depature"
-        }
-      ]
-    },
-    {
-      "text": "In December",
-      "entities": [
-        {
-          "start": 0,
-          "end": 11,
-          "label": "depature"
-        }
-      ]
-    },
-    {
-      "text": "In 12/12",
-      "entities": [
-        {
-          "start": 0,
-          "end": 8,
-          "label": "depature"
-        }
-      ]
-    },
-    {
-      "text": "In 01/12/2022",
-      "entities": [
-        {
-          "start": 3,
-          "end": 8,
-          "label": "depature"
+          "start": 35,
+          "end": 43,
+          "label": "depature-time"
         },
         {
-          "start": 0,
-          "end": 13,
-          "label": "depature"
+          "start": 21,
+          "end": 30,
+          "label": "depature-time"
         }
       ]
     },
     {
-      "text": "2022-01-12",
-      "entities": [
-        {
-          "start": 5,
-          "end": 10,
-          "label": "depature"
-        },
-        {
-          "start": 0,
-          "end": 10,
-          "label": "depature"
-        }
-      ]
-    },
-    {
-      "text": "01-12",
+      "text": "depature date: 01/12, return date: 10/12",
       "entities": [
         {
           "start": 0,
-          "end": 5,
-          "label": "depature"
-        }
-      ]
-    },
-    {
-      "text": "01/12",
-      "entities": [
-        {
-          "start": 0,
-          "end": 5,
-          "label": "depature"
-        }
-      ]
-    },
-    {
-      "text": "2022-12-01 - 2022-12-10",
-      "entities": [
-        {
-          "start": 0,
-          "end": 12,
-          "label": "depature"
-        },
-        {
-          "start": 11,
-          "end": 23,
-          "label": "return"
-        }
-      ]
-    },
-    {
-      "text": "01/12 - 10/12",
-      "entities": [
-        {
-          "start": 0,
-          "end": 5,
-          "label": "depature"
-        },
-        {
-          "start": 0,
-          "end": 7,
-          "label": "depature"
-        },
-        {
-          "start": 6,
-          "end": 13,
-          "label": "return"
-        }
-      ]
-    },
-    {
-      "text": "01-12 - 10-12",
-      "entities": [
-        {
-          "start": 0,
-          "end": 5,
-          "label": "depature"
-        },
-        {
-          "start": 0,
-          "end": 7,
-          "label": "depature"
-        },
-        {
-          "start": 6,
-          "end": 13,
-          "label": "return"
-        }
-      ]
-    },
-    {
-      "text": "From 01/12 to 10/12",
-      "entities": [
-        {
-          "start": 5,
-          "end": 10,
-          "label": "depature"
-        },
-        {
-          "start": 0,
-          "end": 10,
-          "label": "depature"
-        },
-        {
-          "start": 11,
-          "end": 19,
-          "label": "return"
+          "end": 20,
+          "label": "depature-time"
         }
       ]
     },
@@ -309,19 +154,74 @@
       "text": "The depature date is 01/12 and the return date is 10/12",
       "entities": [
         {
-          "start": 21,
-          "end": 26,
-          "label": "depature"
-        },
-        {
           "start": 4,
           "end": 26,
-          "label": "depature"
+          "label": "depature-time"
         },
         {
           "start": 35,
           "end": 55,
-          "label": "return"
+          "label": "return-time"
+        }
+      ]
+    },
+    {
+      "text": "Hugo like to book a flight to Japn from Hong Kong in December. The depature time should be 1/12, and the return date should be 10/12.",
+      "entities": [
+        {
+          "start": 53,
+          "end": 61,
+          "label": "depature-time"
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "label": "person"
+        },
+        {
+          "start": 13,
+          "end": 17,
+          "label": "action"
+        },
+        {
+          "start": 20,
+          "end": 26,
+          "label": "name"
+        },
+        {
+          "start": 35,
+          "end": 49,
+          "label": "depature"
+        }
+      ]
+    },
+    {
+      "text": "I\u2019d like to book a flight to Tokyo please.",
+      "entities": [
+        {
+          "start": 12,
+          "end": 16,
+          "label": "action"
+        },
+        {
+          "start": 19,
+          "end": 25,
+          "label": "name"
+        },
+        {
+          "start": 26,
+          "end": 34,
+          "label": "destination"
+        }
+      ]
+    },
+    {
+      "text": "Yes, I\u2019m coming back on the 30th",
+      "entities": [
+        {
+          "start": 16,
+          "end": 32,
+          "label": "depature-time"
         }
       ]
     }

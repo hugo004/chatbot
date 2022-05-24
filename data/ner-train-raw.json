@@ -12,87 +12,50 @@
       "We want a flight to Japan",
       "We want to fly to Japan",
       "To Japan",
-      "In September",
-      "In December",
-      "In 12/12",
-      "In 01/12/2022",
-      "2022-01-12",
-      "01-12",
-      "01/12",
-      "2022-12-01 - 2022-12-10",
-      "01/12 - 10/12",
-      "01-12 - 10-12",
-      "From 01/12 to 10/12",
-      "The depature date is 01/12 and the return date is 10/12"
+      "From Hong Kong",
+      "The depature time is September, or December",
+      "depature date: 01/12, return date: 10/12",
+      "The depature date is 01/12 and the return date is 10/12",
+      "Hugo like to book a flight to Japn from Hong Kong in December. The depature time should be 1/12, and the return date should be 10/12.",
+      "I’d like to book a flight to Tokyo please.",
+      "Yes, I’m coming back on the 30th"
     ],
     "ners": [
       {
-        "text": "In December",
-        "label": "depature"
+        "text": "back on the 30th",
+        "label": "depature-time"
       },
       {
-        "text": "In September",
-        "label": "depature"
+        "text": "December",
+        "label": "depature-time"
       },
       {
-        "text": "01-12",
-        "label": "depature"
+        "text": "September",
+        "label": "depature-time"
       },
       {
-        "text": "01/12",
-        "label": "depature"
+        "text": "depature date: 01/12",
+        "label": "depature-time"
       },
       {
-        "text": "In 12/12",
-        "label": "depature"
-      },
-      {
-        "text": "In 01/12/2022",
-        "label": "depature"
-      },
-      {
-        "text": "2022-01-12",
-        "label": "depature"
-      },
-      {
-        "text": "01/12 -",
-        "label": "depature"
-      },
-      {
-        "text": "- 10/12",
-        "label": "return"
-      },
-      {
-        "text": "01-12 -",
-        "label": "depature"
-      },
-      {
-        "text": "- 10-12",
-        "label": "return"
-      },
-      {
-        "text": "2022-12-01 -",
-        "label": "depature"
-      },
-      {
-        "text": "- 2022-12-10",
-        "label": "return"
+        "text": "return date: 10/122",
+        "label": "return-time"
       },
       {
         "text": "From 01/12",
-        "label": "depature"
+        "label": "depature-time"
       },
       {
         "text": "to 10/12",
-        "label": "return"
+        "label": "return-time"
       },
       {
         "text": "depature date is 01/12",
-        "label": "depature"
+        "label": "depature-time"
       },
       {
         "text": "return date is 10/12",
-        "label": "return"
+        "label": "return-time"
       },
       {
         "text": "Hugo",
@@ -107,15 +70,15 @@
         "label": "name"
       },
       {
-        "text": "Japan",
+        "text": "to Japan",
         "label": "destination"
       },
       {
-        "text": "Tokyo",
+        "text": "to Tokyo",
         "label": "destination"
       },
       {
-        "text": "Hong Kong",
+        "text": "from Hong Kong",
         "label": "depature"
       }
     ]

@@ -100,13 +100,13 @@ def get_intents():
   return intents
   
       
-def generate_chatbot_data(show_detail: bool):
+def generate_chatbot_data(show_detail: bool, name="chatbot-intents", intents:list = get_intents()):
   words: list[str] = []
   labels: list[str] = []
   doc_x: list[str] = []
   doc_y: list[str] = []
   
-  intents = get_intents()
+  # intents =  get_intents()
  
     
   for intent in intents:
@@ -145,15 +145,15 @@ def generate_chatbot_data(show_detail: bool):
   random.shuffle(training)
   training = np.array(training, dtype=object)
   
-  pickle.dump(words, open(os.path.join(PROJECT_ROOT_PATH, 'models/words.pkl'), 'wb'))
-  pickle.dump(labels, open(os.path.join(PROJECT_ROOT_PATH, 'models/labels.pkl'), 'wb'))
+  pickle.dump(words, open(os.path.join(PROJECT_ROOT_PATH, f'models/{name}-words.pkl'), 'wb'))
+  pickle.dump(labels, open(os.path.join(PROJECT_ROOT_PATH, f'models/{name}-labels.pkl'), 'wb'))
   
 
   df = pd.DataFrame(data={
     "pattern": training[:,0],
     "label": training[:,1]
   })
-  df.to_csv(os.path.join(PROJECT_ROOT_PATH, 'data/chatbot-intents.csv'))
+  df.to_csv(os.path.join(PROJECT_ROOT_PATH, f'data/{name}.csv'))
 
   logging.info ('words and labels model created')
   
