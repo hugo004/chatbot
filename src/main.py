@@ -26,13 +26,20 @@ def get_trained_data(name: str, intent_path=None):
         'model': model,
         'words': words,
         'labels': labels,
-        'intents': json.loads(open(os.path.join(PROJECT_ROOT_PATH, 'data/intents/eform/custom-intents.json')).read()) if intent_path is not None else get_intents()
+        'intents': json.loads(open(os.path.join(PROJECT_ROOT_PATH, intent_path)).read()) if intent_path is not None else get_intents()
     }
 
 
 form = get_trained_data(
     'form', intent_path='data/intents/eform/custom-intents.json')
+form_upload = get_trained_data(
+    'upload', intent_path='data/intents/eform/upload-intents.json')
 chatbot = get_trained_data('chatbot')
+
+model_dict = {
+    'form-custom': form,
+    'upload-fail': form_upload
+}
 
 chatbot_name = "DEV"
 context = {}
@@ -111,6 +118,7 @@ def get_response(predicted: list, intents: list, userId: str, doc=None, forward_
                     if len(i["responses"]) > 0:
                         response = random.choice(i["responses"])
 
+                # perform IE (information extraction)
                 if not forward_type:
                     if "context_filter" in i:
                         print("\n")
@@ -129,7 +137,7 @@ def get_response(predicted: list, intents: list, userId: str, doc=None, forward_
 
                         break
     if show_detail:
-        print('forward type:', forward_type, '\nresponse:', response)
+        print('forward type:', forward_type, '\nresponse:')
 
     return (response, result)
 
@@ -146,11 +154,12 @@ def chatbot_response(sentence: str, userId, show_detail=False):
                                     show_detail=show_detail)
 
     if intent is not None and 'type' in intent and intent['type'] == 'forward':
-        predicted = predict_intent(sentence=sentence, model=form['model'],
-                                   words=form['words'], labels=form['labels'])
+        forward_model = model_dict[intent['tag']]
+        predicted = predict_intent(sentence=sentence, model=forward_model['model'],
+                                   words=forward_model['words'], labels=forward_model['labels'])
 
         forward_response, forward_intent = get_response(predicted=predicted,
-                                                        intents=form['intents'],
+                                                        intents=forward_model['intents'],
                                                         userId=userId,
                                                         forward_type=True,
                                                         show_detail=show_detail)

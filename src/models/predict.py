@@ -10,19 +10,13 @@ from src.utils import PROJECT_ROOT_PATH
 from src.utils.nltk_utils import tokenize, bow
 
 
-chatbot_model = load_model(os.path.join(
-    PROJECT_ROOT_PATH, 'models/chatbot.h5'))
 ner_nlp = spacy.load(os.path.join(
     PROJECT_ROOT_PATH, 'models/ner/model-extend'))
-words = pickle.load(open(os.path.join(PROJECT_ROOT_PATH,
-                    'models/chatbot-intents-words.pkl'), 'rb'))
-labels = pickle.load(open(os.path.join(
-    PROJECT_ROOT_PATH, 'models/chatbot-intents-labels.pkl'), 'rb'))
 
 threshold = 0.5
 
 
-def preprocess_sentence(sentence: Union[list[str], str], words=words):
+def preprocess_sentence(sentence: Union[list[str], str], words):
     # tokenized
     tokenized_sentence = tokenize(sentence)
     bag = bow(tokenized_sentence, words)
@@ -30,7 +24,7 @@ def preprocess_sentence(sentence: Union[list[str], str], words=words):
     return bag
 
 
-def predict_intent(sentence: str, labels=labels, words=words, model=chatbot_model):
+def predict_intent(sentence: str, labels, words, model):
     sentence = preprocess_sentence(sentence, words=words)
     results = model.predict(np.array([sentence]))[0]
     results = [[i, r] for i, r in enumerate(results) if r > threshold]

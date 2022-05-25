@@ -37,5 +37,39 @@
     "responses": [
       "You can create/update the form with our e-form portal"
     ]
+  },
+  {
+    "tag": "fill-data",
+    "patterns": [
+      "fill data",
+      "fill patient data",
+      "fill form data"
+    ],
+    "responses": [
+      "You can pass data model through query string, but the data model must match the form field model. e.g. query string should look like xxx?name=TaiMan, then the form must have a filed with model key name",
+      "You can use \"dataToken\" to auto fill in form data. Please check dataToken for detail"
+    ]
+  },
+  {
+    "tag": "form-to-booking",
+    "patterns": [
+      "upload form to booking",
+      "upload form to appointment",
+      "sync form to booking",
+      "sync form to appointment"
+    ],
+    "responses": [
+      "Click form edit button, and set \"eBookingUpdate\" action with \"formSubmit\" execution level. The actions can find on post-action tab, which in step 2 of form creation"
+    ]
+  },
+  {
+    "tag": "form-to-cms",
+    "patterns": [
+      "upload form to cms",
+      "sync form to cms"
+    ],
+    "responses": [
+      "Click form edit button, and fset \"uploadPdf\" action with \"onApiCall\" execution level. The actions can find on post-action tab, which in step 2 of form creation"
+    ]
   }
 ]

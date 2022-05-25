@@ -21,66 +21,31 @@
         "I want change form color",
         "I want change form theme",
         "I want create form",
-        "How to add a new form"
+        "How to add a new form",
+        "How to sync form to cms",
+        "How to sync form to booking",
+        "How to upload form to booking",
+        "How to upload form to cms"
       ],
       "responses": [],
       "type": "forward"
     },
     {
-      "tag": "form-to-booking",
-      "patterns": [
-        "upload record to my booking",
-        "upload form record to booking",
-        "uplaod form to appointment"
-      ],
-      "responses": [
-        "Click form edit button, and set \"eBookingUpdate\" action with \"formSubmit\" execution level. The actions can find on post-action tab, which in step 2 of form creation"
-      ]
-    },
-    {
-      "tag": "form-to-cms",
-      "patterns": [
-        "upload record to cms",
-        "upload form to cms",
-        "upload form record to cms"
-      ],
-      "responses": [
-        "Click form edit button, and set \"uploadPdf\" action with \"onApiCall\" execution level. The actions can find on post-action tab, which in step 2 of form creation"
-      ]
-    },
-    {
-      "tag": "fill-data",
-      "patterns": [
-        "How to auto fill form data",
-        "fill patient data",
-        "fill data"
-      ],
-      "responses": [
-        "You can pass data model through query string, but the data model must match the form field model. e.g. query string should look like xxx?name=TaiMan, then the form must have a filed with model key name",
-        "You can use \"dataToken\" to auto fill in form data. Please check dataToken for detail"
-      ]
-    },
-    {
-      "tag": "upload-cms-fail",
+      "tag": "upload-fail",
       "patterns": [
         "upload form to cms fail",
-        "Fail to upload form record to cms",
-        "cannnot upload form to cms"
-      ],
-      "responses": [
-        "You should check the cms permission and blob storage setting"
-      ]
-    },
-    {
-      "tag": "upload-booking-fail",
-      "patterns": [
+        "cannnot upload form to cms",
         "upload form to booking fail",
-        "Fail to upload form record to booking",
-        "cannnot upload form to booking"
+        "cannnot upload form to booking",
+        "upload form to appointment fail",
+        "cannnot upload form to appointment",
+        "sync form to cms fail",
+        "sync form to booking fail",
+        "cannot sync form to booking",
+        "cannot sync fomr to cms"
       ],
-      "responses": [
-        "You should check the permission and the cloud service security setting"
-      ]
+      "responses": [],
+      "type": "forward"
     }
   ]
 }

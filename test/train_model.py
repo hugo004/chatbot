@@ -1,10 +1,8 @@
-from ast import Lambda, literal_eval
 import ast
 import json
 import os
 import pandas as pd
 import numpy as np
-import subprocess
 
 from src.models.train import train_chatbot_model, train_ner_model
 from src.data.generate_data import generate_ner_data, generate_chatbot_data, get_intents
@@ -12,6 +10,7 @@ from src.utils import PROJECT_ROOT_PATH
 
 
 def train_diagnose_model(output_name: str, intents: list):
+    print('-' * 25 + ' start of train model:', output_name + ' ' + '-'*25)
     generate_chatbot_data(False, name=output_name, intents=intents)
 
     df = pd.read_csv(os.path.join(
@@ -26,6 +25,7 @@ def train_diagnose_model(output_name: str, intents: list):
     y = np.asanyarray(y).astype(np.int32)
 
     train_chatbot_model(X, y, name=output_name)
+    print('-' * 25 + ' end of train model:', output_name + ' ' + '-'*25)
 
 
 if __name__ == '__main__':
@@ -36,6 +36,9 @@ if __name__ == '__main__':
     # sub model
     train_diagnose_model(output_name='form', intents=json.loads(
         open(os.path.join(PROJECT_ROOT_PATH, 'data/intents/eform/custom-intents.json')).read()))
+
+    train_diagnose_model(output_name='upload', intents=json.loads(
+        open(os.path.join(PROJECT_ROOT_PATH, 'data/intents/eform/upload-intents.json')).read()))
 
     # main model
     train_diagnose_model(output_name='chatbot', intents=get_intents())
