@@ -1,4 +1,3 @@
-from importlib.resources import path
 import json
 import os
 import random
@@ -44,7 +43,7 @@ model_dict = {
 
 chatbot_name = "DEV"
 context = {}
-scene_context = {}
+ie_context = {}
 bot_memory = []
 user = "123"
 
@@ -69,19 +68,19 @@ def catch_ner_info(ent, context_filter, show_detail=False):
     if context_filter == "bkd-query":
         if ner_tag == "GPE":
             if latest_memory in ["FROM", "DPTL"]:
-                scene_context["destination"] = ent.text
+                ie_context["destination"] = ent.text
                 bot_memory.pop()
             elif latest_memory in ["TO", "DSTT"]:
-                scene_context["depature"] = ent.text
+                ie_context["depature"] = ent.text
                 bot_memory.pop()
 
     elif context_filter in ["bkt-query", "bklt-query"]:
         if ner_tag in ["CARDINAL", "DATE"]:
             if latest_memory in ["FROM", "DPTD"]:
-                scene_context["return-date"] = ent.text
+                ie_context["return-date"] = ent.text
                 bot_memory.pop()
             elif latest_memory in ["TO", "RTND"]:
-                scene_context["depature-date"] = ent.text
+                ie_context["depature-date"] = ent.text
                 bot_memory.pop()
 
 
@@ -119,8 +118,8 @@ def get_response(predicted: list, intents: list, userId: str, doc=None, forward_
                     if len(i["responses"]) > 0:
                         response = random.choice(i["responses"])
 
-                # perform IE (information extraction)
-                if not forward_type:
+                # perform information extraction (IE)
+                if 'type' in i and i['type'] == 'ie':
                     if "context_filter" in i:
                         print("\n")
                         print("-" * 25, "NLP", "-" * 25)
@@ -134,7 +133,7 @@ def get_response(predicted: list, intents: list, userId: str, doc=None, forward_
                                 print("entity:", ent,
                                       "text:", ent.text,
                                       "NER label:", ent.label_)
-                                print("context info:", scene_context)
+                                print("context info:", ie_context)
 
                         break
     if show_detail:

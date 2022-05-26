@@ -30,7 +30,8 @@
         "What is the ticket type? one way?"
       ],
       "context_filter": "bkd-query",
-      "context_set": "ticket-type-query"
+      "context_set": "ticket-type-query",
+      "type": "ie"
     },
     {
       "tag": "booking-one-way",
@@ -44,7 +45,8 @@
         "What is your departure date?"
       ],
       "context_filter": "ticket-type-query",
-      "context_set": "bkt-query"
+      "context_set": "bkt-query",
+      "type": "ie"
     },
     {
       "tag": "booking-no-one-way",
@@ -60,7 +62,8 @@
         "What is your departure date and return date?"
       ],
       "context_filter": "ticket-type-query",
-      "context_set": "bkt-query"
+      "context_set": "bkt-query",
+      "type": "ie"
     },
     {
       "tag": "booking-leave-time-query",
@@ -82,7 +85,8 @@
         "Let's summary your booking info"
       ],
       "context_filter": "bklt-query",
-      "context_set": "bk-info"
+      "context_set": "bk-info",
+      "type": "ie"
     },
     {
       "tag": "booking-time-range-query",
@@ -97,7 +101,8 @@
         "Let's summary your booking info"
       ],
       "context_filter": "bkt-query",
-      "context_set": "bk-info"
+      "context_set": "bk-info",
+      "type": "ie"
     }
   ]
 }
