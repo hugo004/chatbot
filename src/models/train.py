@@ -78,13 +78,13 @@ def train_chatbot_model(X_train, y_train, name='chatbot'):
 
     early_stop = EarlyStopping(
         monitor='loss',
-        patience=50,
+        patience=20,
         min_delta=0.1
     )
 
     hist = model.fit(X_train,
                      y_train,
-                     epochs=500,
+                     epochs=200,
                      batch_size=5,
                      verbose=1,
                      callbacks=[early_stop])
