@@ -71,5 +71,16 @@
     "responses": [
       "Click form edit button, and fset \"uploadPdf\" action with \"onApiCall\" execution level. The actions can find on post-action tab, which in step 2 of form creation"
     ]
+  },
+  {
+    "tag": "form-field-condition",
+    "patterns": [
+      "conditional field",
+      "input field show after yes selected",
+      "text field show after option selected"
+    ],
+    "responses": [
+      "You can click the \"condition\" icon, then you can set the display condition"
+    ]
   }
 ]

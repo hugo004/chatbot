@@ -1,73 +1,25 @@
 {
   "intents": [
     {
-      "tag": "booking-query",
+      "tag": "book-flight",
       "patterns": [
         "We want to book a flight",
         "Can I book a flight?",
         "I'd like to book a flight",
-        "Can we book a flight?"
-      ],
-      "responses": [
-        "What is your destination?",
-        "Where are you go?"
-      ],
-      "context_set": "bkd-query"
-    },
-    {
-      "tag": "booking-dest-query",
-      "patterns": [
+        "Can we book a flight?",
         "A flight to Tokyo",
         "From Hong Kong to Tokyo",
         "The destination is Japan",
         "We want a flight to Japan",
         "We want to fly to Japan",
         "We want go to Japan",
-        "To Japan"
-      ],
-      "responses": [
-        "One way ticket?",
-        "What is the ticket type? one way?"
-      ],
-      "context_filter": "bkd-query",
-      "context_set": "ticket-type-query",
-      "type": "ie"
-    },
-    {
-      "tag": "booking-one-way",
-      "patterns": [
+        "To Japan",
         "Yes, one way ticket",
-        "one way"
-      ],
-      "responses": [
-        "When do you fly?",
-        "When are you leave",
-        "What is your departure date?"
-      ],
-      "context_filter": "ticket-type-query",
-      "context_set": "bkt-query",
-      "type": "ie"
-    },
-    {
-      "tag": "booking-no-one-way",
-      "patterns": [
+        "one way",
         "No one way ticket",
         "No one way",
         "I will back on",
-        "I will come back"
-      ],
-      "responses": [
-        "When do you fly and back?",
-        "When you leave and back?",
-        "What is your departure date and return date?"
-      ],
-      "context_filter": "ticket-type-query",
-      "context_set": "bkt-query",
-      "type": "ie"
-    },
-    {
-      "tag": "booking-leave-time-query",
-      "patterns": [
+        "I will come back",
         "We are leaving this weekend",
         "We are leaving this weeke",
         "This week",
@@ -78,31 +30,14 @@
         "In December",
         "In 11/10",
         "Leave at 10/12",
-        "The depatrue date is 10/12"
-      ],
-      "responses": [
-        "Booking process completed",
-        "Let's summary your booking info"
-      ],
-      "context_filter": "bklt-query",
-      "context_set": "bk-info",
-      "type": "ie"
-    },
-    {
-      "tag": "booking-time-range-query",
-      "patterns": [
+        "The depatrue date is 10/12",
         "Leave at 10/12 and back on 20/12",
         "leave in 10/12 and come back on 20/12",
         "The depatrue date is 10/12 and the return date is 20/12",
         "Depatrue time 10/12, return time 20/12"
       ],
-      "responses": [
-        "Booking process completed",
-        "Let's summary your booking info"
-      ],
-      "context_filter": "bkt-query",
-      "context_set": "bk-info",
-      "type": "ie"
+      "responses": [],
+      "type": "forward"
     }
   ]
 }

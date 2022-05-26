@@ -34,11 +34,14 @@ if __name__ == '__main__':
     # train_ner_model(True)
 
     # sub model
-    train_diagnose_model(output_name='form', intents=json.loads(
-        open(os.path.join(PROJECT_ROOT_PATH, 'data/intents/eform/custom-intents.json')).read()))
+    train_diagnose_model(output_name='form',
+                         intents=json.loads(open(os.path.join(PROJECT_ROOT_PATH, 'data/intents/eform/form-expert.json')).read()))
 
-    train_diagnose_model(output_name='upload', intents=json.loads(
-        open(os.path.join(PROJECT_ROOT_PATH, 'data/intents/eform/upload-intents.json')).read()))
+    train_diagnose_model(output_name='upload',
+                         intents=json.loads(open(os.path.join(PROJECT_ROOT_PATH, 'data/intents/eform/form-upload-expert.json')).read()))
+
+    train_diagnose_model(output_name='book-flight',
+                         intents=json.loads(open(os.path.join(PROJECT_ROOT_PATH, 'data/intents/booking/booking-expert.json')).read()))
 
     # main model
     train_diagnose_model(output_name='chatbot', intents=get_intents())

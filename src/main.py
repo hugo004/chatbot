@@ -30,15 +30,19 @@ def get_trained_data(name: str, intent_path=None):
     }
 
 
-form = get_trained_data(
-    'form', intent_path='data/intents/eform/custom-intents.json')
-form_upload = get_trained_data(
-    'upload', intent_path='data/intents/eform/upload-intents.json')
 chatbot = get_trained_data('chatbot')
+
+form = get_trained_data(name='form',
+                        intent_path='data/intents/eform/form-expert.json')
+form_upload = get_trained_data(name='upload',
+                               intent_path='data/intents/eform/form-upload-expert.json')
+book_flight = get_trained_data(name='book-flight',
+                               intent_path='data/intents/booking/booking-expert.json')
 
 model_dict = {
     'form-custom': form,
-    'upload-fail': form_upload
+    'upload-fail': form_upload,
+    'book-flight': book_flight
 }
 
 chatbot_name = "DEV"
@@ -161,6 +165,7 @@ def chatbot_response(sentence: str, userId, show_detail=False):
         forward_response, forward_intent = get_response(predicted=predicted,
                                                         intents=forward_model['intents'],
                                                         userId=userId,
+                                                        doc=ner,
                                                         forward_type=True,
                                                         show_detail=show_detail)
 

@@ -1,17 +1,6 @@
 {
   "intents": [
     {
-      "tag": "form-field-condition",
-      "patterns": [
-        "conditional field",
-        "How can i set this filed show after yes selected",
-        "I want the text field show after option selected"
-      ],
-      "responses": [
-        "You can click the \"condition\" icon, then you can set the display condition"
-      ]
-    },
-    {
       "tag": "form-custom",
       "patterns": [
         "How to custom form color",
@@ -25,7 +14,9 @@
         "How to sync form to cms",
         "How to sync form to booking",
         "How to upload form to booking",
-        "How to upload form to cms"
+        "How to upload form to cms",
+        "How can i set this filed show after yes selected",
+        "I want the text field show after option selected"
       ],
       "responses": [],
       "type": "forward"
