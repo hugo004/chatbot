@@ -3,6 +3,7 @@ import json
 import os
 import random
 import pickle
+import spacy
 
 from src.utils import PROJECT_ROOT_PATH
 from models.predict import predict_intent, predict_ner
@@ -171,19 +172,25 @@ def chatbot_response(sentence: str, userId, show_detail=False):
 
 if __name__ == "__main__":
     print(f"${chatbot_name}: My name is ${chatbot_name}. What can i help you ?")
+    nlp = spacy.load('en_core_web_sm')
+
     while True:
         user_response = input()
         if user_response in ["bye", "exit", "quit"]:
             print(f"${chatbot_name}: bye")
             print("\n")
-            print("-" * 10, "booking summary", "-" * 10)
-            print(scene_context)
+            if bool(ie_context):
+                print("-" * 10, "information", "-" * 10)
+                print(ie_context)
             break
 
-        response, user_intent = chatbot_response(
-            user_response, userId=user, show_detail=True
-        )
+        # handle multiple intents
+        doc = nlp(user_response)
+        for sent in doc.sents:
+            response, user_intent = chatbot_response(sentence=sent.text,
+                                                     userId=user,
+                                                     show_detail=True)
 
-        print("\n")
-        print("-" * 25, "RESPONSE", "-" * 25)
-        print(f"${chatbot_name}: ${response}\n")
+            print("\n")
+            print("-" * 25, "RESPONSE", "-" * 25)
+            print(f"${chatbot_name}: ${response}\n")
