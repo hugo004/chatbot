@@ -4,9 +4,9 @@ import os
 import pandas as pd
 import numpy as np
 
-from src.models.train import train_chatbot_model, train_ner_model
-from src.data.generate_data import generate_ner_data, generate_chatbot_data, get_intents
-from src.utils import PROJECT_ROOT_PATH
+from models.train import train_chatbot_model, train_ner_model
+from data.generate_data import generate_ner_data, generate_chatbot_data, get_intents
+from utils import PROJECT_ROOT_PATH
 
 
 def train_diagnose_model(output_name: str, intents: list):
