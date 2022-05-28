@@ -4,7 +4,7 @@ import logging
 import spacy
 import json
 
-from src.utils import PROJECT_ROOT_PATH, ROOT_PATH
+from utils import PROJECT_ROOT_PATH, ROOT_PATH
 from spacy.tokens import DocBin
 from keras.models import Sequential
 from keras.layers import Dense, Dropout

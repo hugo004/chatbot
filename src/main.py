@@ -4,10 +4,16 @@ import random
 import pickle
 import spacy
 
-from src.utils import PROJECT_ROOT_PATH
+from utils import PROJECT_ROOT_PATH
 from models.predict import predict_intent, predict_ner
 from data.generate_data import get_intents
 from keras.models import load_model
+
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CallbackContext, CommandHandler, MessageHandler, filters
+
+
+nlp = spacy.load('en_core_web_sm')
 
 
 def get_trained_data(name: str, intent_path=None):
@@ -45,7 +51,7 @@ model_dict = {
     'book-flight': book_flight
 }
 
-chatbot_name = "DEV"
+chatbot_name = "Berserker"
 context = {}
 ie_context = {}
 bot_memory = []
@@ -174,27 +180,57 @@ def chatbot_response(sentence: str, userId, show_detail=False):
     return (response, intent)
 
 
+async def start(update: Update, context: CallbackContext.DEFAULT_TYPE):
+    response_dict = update.to_dict()
+    msg_data = response_dict['message']
+    username = msg_data['chat']['username']
+
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Hello {username}, My name is {chatbot_name}. What can i help you ?")
+
+
+async def message_handle(update: Update, context: CallbackContext.DEFAULT_TYPE):
+    response_dict = update.to_dict()
+    msg_data = response_dict['message']
+    text = msg_data['text']
+    username = msg_data['chat']['username']
+
+    # handle multiple intents
+    doc = nlp(text=text)
+    for sent in doc.sents:
+        response, _ = chatbot_response(sentence=sent.text,
+                                       userId=username,
+                                       show_detail=True)
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=response)
+
+
 if __name__ == "__main__":
-    print(f"${chatbot_name}: My name is ${chatbot_name}. What can i help you ?")
-    nlp = spacy.load('en_core_web_sm')
+    # print(f"${chatbot_name}: My name is ${chatbot_name}. What can i help you ?")
 
-    while True:
-        user_response = input()
-        if user_response in ["bye", "exit", "quit"]:
-            print(f"${chatbot_name}: bye")
-            print("\n")
-            if bool(ie_context):
-                print("-" * 10, "information", "-" * 10)
-                print(ie_context)
-            break
+    # while True:
+    #     user_response = input()
+    #     if user_response in ["bye", "exit", "quit"]:
+    #         print(f"${chatbot_name}: bye")
+    #         print("\n")
+    #         if bool(ie_context):
+    #             print("-" * 10, "information", "-" * 10)
+    #             print(ie_context)
+    #         break
 
-        # handle multiple intents
-        doc = nlp(user_response)
-        for sent in doc.sents:
-            response, user_intent = chatbot_response(sentence=sent.text,
-                                                     userId=user,
-                                                     show_detail=True)
+    #     # handle multiple intents
+    #     doc = nlp(user_response)
+    #     for sent in doc.sents:
+    #         response, user_intent = chatbot_response(sentence=sent.text,
+    #                                                  userId=user,
+    #                                                  show_detail=True)
 
-            print("\n")
-            print("-" * 25, "RESPONSE", "-" * 25)
-            print(f"${chatbot_name}: ${response}\n")
+    #         print("\n")
+    #         print("-" * 25, "RESPONSE", "-" * 25)
+    #         print(f"${chatbot_name}: ${response}\n")
+
+    app = ApplicationBuilder().token(config['token']).build()
+
+    start_handler = CommandHandler('start', start)
+    app.add_handler(start_handler)
+    app.add_handler(MessageHandler(~filters.COMMAND, message_handle))
+
+    app.run_polling()

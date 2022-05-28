@@ -5,9 +5,9 @@ import spacy
 import pickle
 
 from keras.models import load_model
-from typing import Union
-from src.utils import PROJECT_ROOT_PATH
-from src.utils.nltk_utils import tokenize, bow
+from typing import List, Union
+from utils import PROJECT_ROOT_PATH
+from utils.nltk_utils import tokenize, bow
 
 
 ner_nlp = spacy.load(os.path.join(
@@ -16,7 +16,7 @@ ner_nlp = spacy.load(os.path.join(
 threshold = 0.5
 
 
-def preprocess_sentence(sentence: Union[list[str], str], words):
+def preprocess_sentence(sentence: Union[List[str], str], words):
     # tokenized
     tokenized_sentence = tokenize(sentence)
     bag = bow(tokenized_sentence, words)
