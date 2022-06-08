@@ -202,6 +202,35 @@ async def message_handle(update: Update, context: CallbackContext.DEFAULT_TYPE):
                                        show_detail=True)
         await context.bot.send_message(chat_id=update.effective_chat.id, text=response)
 
+    reply_markup = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton('Yes', callback_data=1),
+            InlineKeyboardButton('No', callback_data=0),
+        ],
+        [InlineKeyboardButton('No, I mean something else', callback_data=-1)]
+    ])
+    await update.message.reply_text(
+        'Did I solve your question?', reply_markup=reply_markup)
+
+
+async def collect_feedback(update: Update, context: CallbackContext.DEFAULT_TYPE):
+    # TODO: save user feedback
+    query = update.callback_query
+    feedback = query.data
+    await query.edit_message_text(text='Thank you for your feedback')
+
+
+def run():
+
+    app = ApplicationBuilder().token(config['token']).build()
+
+    start_handler = CommandHandler('start', start)
+    app.add_handler(start_handler)
+    app.add_handler(MessageHandler(~filters.COMMAND, message_handle))
+    app.add_handler(CallbackQueryHandler(collect_feedback))
+
+    app.run_polling()
+
 
 if __name__ == "__main__":
     # print(f"${chatbot_name}: My name is ${chatbot_name}. What can i help you ?")
@@ -226,11 +255,4 @@ if __name__ == "__main__":
     #         print("\n")
     #         print("-" * 25, "RESPONSE", "-" * 25)
     #         print(f"${chatbot_name}: ${response}\n")
-
-    app = ApplicationBuilder().token(config['token']).build()
-
-    start_handler = CommandHandler('start', start)
-    app.add_handler(start_handler)
-    app.add_handler(MessageHandler(~filters.COMMAND, message_handle))
-
-    app.run_polling()
+    run()
