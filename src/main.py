@@ -9,8 +9,8 @@ from models.predict import predict_intent, predict_ner
 from data.generate_data import get_intents
 from keras.models import load_model
 
-from telegram import Update
-from telegram.ext import ApplicationBuilder, CallbackContext, CommandHandler, MessageHandler, filters
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import ApplicationBuilder, CallbackContext, CommandHandler, MessageHandler, filters, CallbackQueryHandler
 
 
 nlp = spacy.load('en_core_web_sm')
@@ -153,6 +153,7 @@ def get_response(predicted: list, intents: list, userId: str, doc=None, forward_
 
 
 def chatbot_response(sentence: str, userId, show_detail=False):
+    qna_type = False
     ner = predict_ner(sentence)
     predicted = predict_intent(sentence, model=chatbot['model'],
                                words=chatbot['words'], labels=chatbot['labels'])
@@ -174,10 +175,12 @@ def chatbot_response(sentence: str, userId, show_detail=False):
                                                         doc=ner,
                                                         forward_type=True,
                                                         show_detail=show_detail)
+        if forward_intent:
+            qna_type = True
 
-        return (forward_response, forward_intent)
+        return (forward_response, forward_intent, qna_type)
 
-    return (response, intent)
+    return (response, intent, qna_type)
 
 
 async def start(update: Update, context: CallbackContext.DEFAULT_TYPE):
@@ -197,40 +200,47 @@ async def message_handle(update: Update, context: CallbackContext.DEFAULT_TYPE):
     # handle multiple intents
     doc = nlp(text=text)
     for sent in doc.sents:
-        response, _ = chatbot_response(sentence=sent.text,
-                                       userId=username,
-                                       show_detail=True)
+        response, intent, qna_type = chatbot_response(sentence=sent.text,
+                                                      userId=username,
+                                                      show_detail=True)
         await context.bot.send_message(chat_id=update.effective_chat.id, text=response)
 
+    # TODO: save classify fail sentence
+    if intent is None:
+        pass
 
-if __name__ == "__main__":
-    # print(f"${chatbot_name}: My name is ${chatbot_name}. What can i help you ?")
+    if qna_type and response:
+        reply_markup = InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton('Yes', callback_data=1),
+                InlineKeyboardButton('No', callback_data=0),
+            ],
+            [InlineKeyboardButton(
+                'No, I mean something else', callback_data=-1)]
+        ])
 
-    # while True:
-    #     user_response = input()
-    #     if user_response in ["bye", "exit", "quit"]:
-    #         print(f"${chatbot_name}: bye")
-    #         print("\n")
-    #         if bool(ie_context):
-    #             print("-" * 10, "information", "-" * 10)
-    #             print(ie_context)
-    #         break
+        await update.message.reply_text(
+            'Did I solve your question?', reply_markup=reply_markup)
 
-    #     # handle multiple intents
-    #     doc = nlp(user_response)
-    #     for sent in doc.sents:
-    #         response, user_intent = chatbot_response(sentence=sent.text,
-    #                                                  userId=user,
-    #                                                  show_detail=True)
 
-    #         print("\n")
-    #         print("-" * 25, "RESPONSE", "-" * 25)
-    #         print(f"${chatbot_name}: ${response}\n")
+async def collect_feedback(update: Update, context: CallbackContext.DEFAULT_TYPE):
+    # TODO: save user feedback
+    query = update.callback_query
+    feedback = query.data
+    await query.edit_message_text(text='Thank you for your feedback')
+
+
+def run():
 
     app = ApplicationBuilder().token(config['token']).build()
 
     start_handler = CommandHandler('start', start)
     app.add_handler(start_handler)
     app.add_handler(MessageHandler(~filters.COMMAND, message_handle))
+    app.add_handler(CallbackQueryHandler(collect_feedback))
 
     app.run_polling()
+
+
+if __name__ == "__main__":
+    run()
