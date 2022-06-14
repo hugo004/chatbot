@@ -12,8 +12,12 @@ from keras.models import load_model
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ApplicationBuilder, CallbackContext, CommandHandler, MessageHandler, filters, CallbackQueryHandler
 
+from db.config import DB
+
 
 nlp = spacy.load('en_core_web_sm')
+
+db = DB()
 
 
 def get_trained_data(name: str, intent_path=None):
@@ -56,6 +60,12 @@ context = {}
 ie_context = {}
 bot_memory = []
 user = "123"
+
+predicted_info = {
+    'sentence': None,
+    'tag': None,
+    'feedback': None
+}
 
 
 def catch_ner_info(ent, context_filter, show_detail=False):
@@ -197,26 +207,30 @@ async def message_handle(update: Update, context: CallbackContext.DEFAULT_TYPE):
     text = msg_data['text']
     username = msg_data['chat']['username']
 
+    # store predict info
+    predicted_info['sentence'] = text
+
     # handle multiple intents
     doc = nlp(text=text)
     for sent in doc.sents:
         response, intent, qna_type = chatbot_response(sentence=sent.text,
                                                       userId=username,
                                                       show_detail=True)
+
+        predicted_info['tag'] = None if intent is None else intent['tag']
         await context.bot.send_message(chat_id=update.effective_chat.id, text=response)
 
-    # TODO: save classify fail sentence
-    if intent is None:
-        pass
+    if predicted_info['tag'] is None:
+        db.insert_feedback(sentence=predicted_info['sentence'])
 
     if qna_type and response:
         reply_markup = InlineKeyboardMarkup([
             [
                 InlineKeyboardButton('Yes', callback_data=1),
-                InlineKeyboardButton('No', callback_data=0),
+                InlineKeyboardButton('No', callback_data=2),
             ],
             [InlineKeyboardButton(
-                'No, I mean something else', callback_data=-1)]
+                'No, I mean something else', callback_data=0)]
         ])
 
         await update.message.reply_text(
@@ -224,14 +238,17 @@ async def message_handle(update: Update, context: CallbackContext.DEFAULT_TYPE):
 
 
 async def collect_feedback(update: Update, context: CallbackContext.DEFAULT_TYPE):
-    # TODO: save user feedback
+
     query = update.callback_query
     feedback = query.data
+
+    db.insert_feedback(sentence=predicted_info['sentence'],
+                       predicted=predicted_info['tag'],
+                       feedback_type=feedback)
     await query.edit_message_text(text='Thank you for your feedback')
 
 
 def run():
-
     app = ApplicationBuilder().token(config['token']).build()
 
     start_handler = CommandHandler('start', start)
@@ -243,4 +260,7 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    try:
+        run()
+    except:
+        db.close_connection()
