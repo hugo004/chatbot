@@ -12,7 +12,9 @@ from keras.models import load_model
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import ApplicationBuilder, CallbackContext, CommandHandler, MessageHandler, filters, CallbackQueryHandler
 
-from db.config import DB
+from log import logging
+from managers import feedback_manager
+
 
 
 nlp = spacy.load('en_core_web_sm')
@@ -221,7 +223,7 @@ async def message_handle(update: Update, context: CallbackContext.DEFAULT_TYPE):
         await context.bot.send_message(chat_id=update.effective_chat.id, text=response)
 
     if predicted_info['tag'] is None:
-        db.insert_feedback(sentence=predicted_info['sentence'])
+        feedback_manager.save_feedback(sentence=predicted_info['sentence'])
 
     if qna_type and response:
         reply_markup = InlineKeyboardMarkup([
@@ -242,9 +244,9 @@ async def collect_feedback(update: Update, context: CallbackContext.DEFAULT_TYPE
     query = update.callback_query
     feedback = query.data
 
-    db.insert_feedback(sentence=predicted_info['sentence'],
-                       predicted=predicted_info['tag'],
-                       feedback_type=feedback)
+    feedback_manager.save_feedback(sentence=predicted_info['sentence'],
+                                   predicted=predicted_info['tag'],
+                                   feedback_type=feedback)
     await query.edit_message_text(text='Thank you for your feedback')
 
 
@@ -263,4 +265,5 @@ if __name__ == "__main__":
     try:
         run()
     except:
-        db.close_connection()
+        feedback_manager.close_connection()
+        logging.info('chatbot stopped')
