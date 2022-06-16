@@ -13,7 +13,7 @@ from utils.nltk_utils import tokenize, bow
 ner_nlp = spacy.load(os.path.join(
     PROJECT_ROOT_PATH, 'models/ner/model-extend'))
 
-threshold = 0.6
+threshold = 0.65
 
 
 def preprocess_sentence(sentence: Union[List[str], str], words):
