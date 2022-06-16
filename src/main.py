@@ -14,12 +14,9 @@ from telegram.ext import ApplicationBuilder, CallbackContext, CommandHandler, Me
 
 from log import logging
 from managers import feedback_manager
-
-
+from config import tg_config
 
 nlp = spacy.load('en_core_web_sm')
-
-db = DB()
 
 
 def get_trained_data(name: str, intent_path=None):
@@ -251,7 +248,7 @@ async def collect_feedback(update: Update, context: CallbackContext.DEFAULT_TYPE
 
 
 def run():
-    app = ApplicationBuilder().token(config['token']).build()
+    app = ApplicationBuilder().token(tg_config['token']).build()
 
     start_handler = CommandHandler('start', start)
     app.add_handler(start_handler)

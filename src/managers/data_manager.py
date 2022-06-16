@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.INFO)
 
 class Manager():
     def __init__(self) -> None:
-        self.__db_con = self.connect_db(db=db_config['name'],
+        self.__db_con = self.connect_db(db=db_config['db'],
                                         user=db_config['user'],
                                         pswd=db_config['password'],
                                         host=db_config['host'],
