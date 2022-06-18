@@ -19,6 +19,7 @@ services:
   app:
     restart: always
     build: ./app
+    image: ${DOCKER_REGISTRY}/chatbot_app
     volumes:
       - ./app:/chatbot-app
     environment:
@@ -28,6 +29,7 @@ services:
       - POSTGRES_HOST=${DB_HOST}
       - POSTGRES_PORT=${DB_PORT}
       - TG_TOKEN=${TG_TOKEN}
+      - DOCKER_REGISTRY=${DOCKER_REGISTRY}
 
     depends_on:
       - db
