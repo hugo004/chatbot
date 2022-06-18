@@ -1,12 +1,14 @@
+import os
+
 db_config = {
-    'db': 'your db name',
-    'user': 'your ac',
-    'password': 'your password',
-    'host': 'your db host',
-    'port': 'your db port'
+    'db':  os.environ.get('POSTGRES_DB'),
+    'user': os.environ.get('POSTGTES_USER'),
+    'password': os.environ.get('POSTGRES_PASSWORD'),
+    'host': os.environ.get('POSTGRES_HOST'),
+    'port': os.environ.get('POSTGRES_PORT')
 }
 
 tg_config = {
-    'token': 'your telegram token',
+    'token': os.environ.get('TG_TOKEN'),
     'endpoint': 'https://api.telegram.org/bot'
 }
