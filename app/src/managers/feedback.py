@@ -10,7 +10,7 @@ class FeedbackManager(Manager):
 
     def save_feedback(self, sentence: str, feedback_type=-1, predicted=None):
         self.__cursor.execute(
-            f'''INSERT INTO chatbot_feedback(sentence, predicted, feedback) values ('{sentence}', '{predicted}', '{feedback_type}')''')
+            f'''INSERT INTO feedback(sentence, predicted, feedback) values ('{sentence}', '{predicted}', '{feedback_type}')''')
         self.__connection.commit()
 
         logging.info('user feedback saved')
