@@ -1,11 +1,13 @@
 version: '3'
 
+networks:
+  internal:
+
+
 services:
   db:
     image: postgres:latest
     restart: always
-    volumes:
-      - ./app/data/db:/var/lib/postgrest/data
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGTES_USER=${DB_USER}
@@ -15,13 +17,13 @@ services:
     expose:
       - 5432
     container_name: postgres_db
+    networks:
+      - internal
 
   app:
     restart: always
     build: ./app
     image: ${DOCKER_REGISTRY}/chatbot_app
-    volumes:
-      - ./app:/chatbot-app
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGTES_USER=${DB_USER}
@@ -33,6 +35,6 @@ services:
 
     depends_on:
       - db
-    links:
-      - db:postgres_db
     container_name: chatbot_app
+    networks:
+      - internal
